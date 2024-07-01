@@ -10,8 +10,8 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class Client {
+@Entity(name = "CLIENT")
+public class SosulClient {
     @Id
     @Column(name = "CLIENT_ID")
     Integer id;

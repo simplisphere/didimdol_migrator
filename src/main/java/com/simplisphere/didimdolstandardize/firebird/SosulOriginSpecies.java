@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 @Slf4j
 @Getter
 @AllArgsConstructor
-public enum OriginSpecies {
+public enum SosulOriginSpecies {
     Canine(1, Species.CANINE),
     Feline(2, Species.FELINE),
     Rabbit(3, Species.ETC),
@@ -36,8 +36,8 @@ public enum OriginSpecies {
     private final int id;
     private final Species species;
 
-    public static OriginSpecies of(Integer speciesId) {
-        return Stream.of(OriginSpecies.values())
+    public static SosulOriginSpecies of(Integer speciesId) {
+        return Stream.of(SosulOriginSpecies.values())
                 .filter(p -> p.getId() == speciesId)
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);

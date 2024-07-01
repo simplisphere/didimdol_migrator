@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/standardize")
 public class StandardizeController {
-    private final StandardizeService standardizeService;
+    private final StandardizeSosulService standardizeSosulService;
     private final HospitalRepository targetHospitalRepository;
 
     @PostMapping("patient")
@@ -31,10 +31,10 @@ public class StandardizeController {
         ));
 
         PageRequest pageRequest = PageRequest.of(0, 50, Sort.by("id").ascending());
-        Page<Patient> newPatients = standardizeService.standardizeAndSaveFromFirebird(hospital, pageRequest);
+        Page<Patient> newPatients = standardizeSosulService.standardizedPatient(hospital, pageRequest);
         while (newPatients.hasNext()) {
             pageRequest = pageRequest.next();
-            newPatients = standardizeService.standardizeAndSaveFromFirebird(hospital, pageRequest);
+            newPatients = standardizeSosulService.standardizedPatient(hospital, pageRequest);
         }
 
         return ResponseEntity.ok(newPatients);
