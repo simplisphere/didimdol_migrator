@@ -3,7 +3,6 @@ package com.simplisphere.didimdolstandardize.postgresql.entities;
 import com.simplisphere.didimdolstandardize.postgresql.Species;
 import jakarta.persistence.*;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,7 +34,6 @@ public class Patient {
     private LocalDateTime created;
     private LocalDateTime updated;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;

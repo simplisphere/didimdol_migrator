@@ -2,7 +2,6 @@ package com.simplisphere.didimdolstandardize.postgresql.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -35,7 +34,6 @@ public class Chart {
     @JoinColumn(name = "pet_id")
     private Patient patient;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;

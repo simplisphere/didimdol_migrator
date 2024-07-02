@@ -1,7 +1,6 @@
 package com.simplisphere.didimdolstandardize;
 
 import com.simplisphere.didimdolstandardize.firebird.*;
-import com.simplisphere.didimdolstandardize.postgresql.Species;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Chart;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Hospital;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Patient;
@@ -35,7 +34,7 @@ public class StandardizeSosulService {
         List<Patient> patients = saveAllPatientsFromOrigin(
                 hospital,
                 petsAndClients.get()
-                        .filter(p -> p.a.getSosulOriginSpecies().toSpecies() != Species.ETC)
+//                        .filter(p -> p.a.getSosulOriginSpecies().toSpecies() != Species.ETC)
                         .toList()
         );
 
@@ -46,7 +45,7 @@ public class StandardizeSosulService {
     public Page<Chart> standardizedChart(Hospital hospital, PageRequest pageRequest) {
         Page<SosulChart> originCharts = sosulChartRepository.findAll(pageRequest);
         List<Chart> newCharts = originCharts
-                .filter(c -> c.getSosulPet().getSosulOriginSpecies().toSpecies() != Species.ETC)
+//                .filter(c -> c.getSosulPet().getSosulOriginSpecies().toSpecies() != Species.ETC)
                 .map(c -> {
                     log.trace("original chart: {}", c.toString());
                     Patient patient = patientRepository.findByOriginalId(c.getSosulPet().getId().toString());
