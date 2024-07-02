@@ -19,6 +19,7 @@ public class StandardizeDiagnosisMarker {
     // type.PRESCRIPTION: Medicine Name
     // type.LABORATORY: Laboratory Item Name
     private String name;
+    private String code;
     private String description;
     @Enumerated(EnumType.STRING)
     private Species species;
@@ -28,7 +29,7 @@ public class StandardizeDiagnosisMarker {
     private Float referenceMinimum;
     private Float referenceMaximum;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "diagnosis_id")
-//    private Diagnosis diagnosis;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "diagnosis_id")
+    private Diagnosis diagnosis;
 }

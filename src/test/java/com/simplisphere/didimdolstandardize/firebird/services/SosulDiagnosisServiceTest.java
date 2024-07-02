@@ -5,10 +5,7 @@ import com.simplisphere.didimdolstandardize.postgresql.entities.HospitalDiagnosi
 import com.simplisphere.didimdolstandardize.postgresql.repositories.HospitalDiagnosisRepository;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.HospitalRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -17,6 +14,7 @@ import org.springframework.data.domain.Sort;
 
 @Slf4j
 @SpringBootTest
+@Order(1)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SosulDiagnosisServiceTest {
     private static Hospital hospital;
