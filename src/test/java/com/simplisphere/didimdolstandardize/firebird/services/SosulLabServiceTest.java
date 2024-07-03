@@ -92,7 +92,7 @@ class SosulLabServiceTest {
     @Order(4)
     void generateStandardizedLabResult(@Autowired StandardizedLabService laboratoryLabService) {
         Sort sort = Sort.by(Sort.Order.asc("labResultId"));
-        PageRequest pageRequest = PageRequest.of(0, 500, sort);
+        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         Page<LaboratoryResult> newLaboratoryResults = sosulLabService.convertLaboratoryResultFromOriginalLabResult(hospital, pageRequest);
         laboratoryLabService.saveLaboratoryResults(newLaboratoryResults.getContent());
 
