@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
@@ -38,9 +39,6 @@ public class Patient {
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
-//    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
-//    private List<Vital> vitals;
-//
-//    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
-//    private List<Chart> charts;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<Vital> vitals;
 }
