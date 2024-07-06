@@ -66,7 +66,7 @@ public class StandardizedRunner implements ApplicationRunner {
     }
 
     private void standardizePatientInfo(Hospital hospital) {
-        PageRequest pageRequest = PageRequest.of(0, 200, Sort.by("id").ascending());
+        PageRequest pageRequest = PageRequest.of(0, 1000, Sort.by("id").ascending());
         Page<Patient> newPatients = standardizeSosulService.standardizedPatient(hospital, pageRequest);
         int completed = 0;
         while (newPatients.getPageable().getPageNumber() < newPatients.getTotalPages()) {
@@ -80,7 +80,7 @@ public class StandardizedRunner implements ApplicationRunner {
     }
 
     private void standardizeChartInfo(Hospital hospital) {
-        PageRequest pageRequest = PageRequest.of(0, 500, Sort.by("id").ascending());
+        PageRequest pageRequest = PageRequest.of(0, 1000, Sort.by("id").ascending());
         Page<Chart> newCharts = standardizeSosulService.standardizedChart(hospital, pageRequest);
         int completed = 0;
         while (newCharts.getPageable().getPageNumber() < newCharts.getTotalPages()) {

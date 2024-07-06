@@ -34,7 +34,7 @@ class SosulDiagnosisServiceTest {
     @Test
     void saveHospitalDiagnosisAndSaveStandardDiagnosisFromSosulDiagnosis(@Autowired HospitalDiagnosisRepository hospitalDiagnosisRepository) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
-        PageRequest pageRequest = PageRequest.of(0, 50, sort);
+        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         Page<HospitalDiagnosis> hospitalDiagnoses = sosulDiagnosisService.saveHospitalDiagnosisAndSaveStandardDiagnosisFromSosulDiagnosis(hospital, pageRequest);
         hospitalDiagnosisRepository.saveAll(hospitalDiagnoses.getContent());
 

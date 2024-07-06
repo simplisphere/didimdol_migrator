@@ -35,7 +35,7 @@ class SosulVitalServiceTest {
     @Order(1)
     void convertVitalFromSosulVital(@Autowired VitalRepository vitalRepository) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
-        PageRequest pageRequest = PageRequest.of(0, 500, sort);
+        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         Page<Vital> newVitals = sosulVitalService.convertVitalFromSosulVital(hospital, pageRequest);
         vitalRepository.saveAll(newVitals.getContent());
 

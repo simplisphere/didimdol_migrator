@@ -34,7 +34,7 @@ class SosulAssessmentServiceTest {
     @Test
     void convertAssessmentFromOriginalAssessment(@Autowired AssessmentRepository assessmentRepository) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
-        PageRequest pageRequest = PageRequest.of(0, 50, sort);
+        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         Page<Assessment> assessments = sosulAssessmentService.convertAssessmentFromOriginalAssessment(hospital, pageRequest);
         assessmentRepository.saveAll(assessments.getContent());
 

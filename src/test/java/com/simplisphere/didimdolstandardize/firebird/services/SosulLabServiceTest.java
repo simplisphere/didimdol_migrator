@@ -38,7 +38,7 @@ class SosulLabServiceTest {
     @Order(1)
     void convertStandardizedLabTypeFromOriginalLabProduct(@Autowired StandardizedLabService laboratoryLabService) {
         Sort sort = Sort.by(Sort.Order.asc("labProductId"));
-        PageRequest pageRequest = PageRequest.of(0, 100, sort);
+        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         Page<LaboratoryType> newLaboratorytypes = sosulLabService.convertStandardizedLabTypeFromOriginalLabProduct(hospital, pageRequest);
         laboratoryLabService.saveLaboratoryTypes(newLaboratorytypes.getContent());
 
@@ -56,7 +56,7 @@ class SosulLabServiceTest {
     @Order(2)
     void convertStandardizedLabItemFromOriginalLabItem(@Autowired StandardizedLabService laboratoryLabService) {
         Sort sort = Sort.by(Sort.Order.asc("labItemId"));
-        PageRequest pageRequest = PageRequest.of(0, 200, sort);
+        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         Page<LaboratoryItem> newLaboratoryItems = sosulLabService.convertStandardizedLabItemFromOriginalLabItem(hospital, pageRequest);
         laboratoryLabService.saveLaboratoryItems(newLaboratoryItems.getContent());
 
@@ -74,7 +74,7 @@ class SosulLabServiceTest {
     @Order(3)
     void generateStandardizedLabRef(@Autowired StandardizedLabService laboratoryLabService) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
-        PageRequest pageRequest = PageRequest.of(0, 200, sort);
+        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         Page<LaboratoryReference> newLaboratoryRefs = sosulLabService.convertStandardizedLabReferenceFromOriginalLabRange(hospital, pageRequest);
         laboratoryLabService.saveLaboratoryReferences(newLaboratoryRefs.getContent());
 
