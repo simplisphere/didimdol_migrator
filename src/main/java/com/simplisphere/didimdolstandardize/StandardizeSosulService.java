@@ -1,6 +1,10 @@
 package com.simplisphere.didimdolstandardize;
 
-import com.simplisphere.didimdolstandardize.firebird.*;
+import com.simplisphere.didimdolstandardize.firebird.SosulChart;
+import com.simplisphere.didimdolstandardize.firebird.SosulChartRepository;
+import com.simplisphere.didimdolstandardize.firebird.SosulClient;
+import com.simplisphere.didimdolstandardize.firebird.SosulPet;
+import com.simplisphere.didimdolstandardize.firebird.repositories.SosulPetRepository;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Chart;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Hospital;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Patient;

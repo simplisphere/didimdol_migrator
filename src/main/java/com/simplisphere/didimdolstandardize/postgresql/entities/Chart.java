@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(indexes = @Index(name = "idx_original_id", columnList = "original_id"))
+@NamedEntityGraph(name = "Chart.withPatient", attributeNodes = @NamedAttributeNode("patient"))
 public class Chart {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "chart_gen")

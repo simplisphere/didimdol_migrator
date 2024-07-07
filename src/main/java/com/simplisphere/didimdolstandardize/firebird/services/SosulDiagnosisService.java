@@ -2,6 +2,7 @@ package com.simplisphere.didimdolstandardize.firebird.services;
 
 import com.simplisphere.didimdolstandardize.firebird.entities.SosulDiagnosis;
 import com.simplisphere.didimdolstandardize.firebird.repositories.SosulDxRepository;
+import com.simplisphere.didimdolstandardize.postgresql.RuleType;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Diagnosis;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Hospital;
 import com.simplisphere.didimdolstandardize.postgresql.entities.HospitalDiagnosis;
@@ -38,7 +39,7 @@ public class SosulDiagnosisService {
 
         // Sosul Diagnosis -> Hospital Diagnosis 변환
         List<HospitalDiagnosis> newHospitalDiagnoses = sosulDiagnoses.stream().parallel().map(sosulDiagnosis -> {
-                    Optional<StandardizedRule> rule = ruleRepository.findByFromName(sosulDiagnosis.getName());
+                    Optional<StandardizedRule> rule = ruleRepository.findByTypeAndFromNameAndHospital(RuleType.DIAGNOSIS, sosulDiagnosis.getName(), hospital);
                     // rule이 존재한다면 diagnosis에서 rule.toName과 같은 이름을 가진 객체를 조회하여 대입
                     Optional<Diagnosis> diagnosis = rule.flatMap(standardizedRule -> diagnosisRepository.findByName(standardizedRule.getToName()));
                     return HospitalDiagnosis.builder()

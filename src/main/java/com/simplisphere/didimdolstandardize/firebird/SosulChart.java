@@ -12,6 +12,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "CHART")
+@NamedEntityGraph(name = "SosulChart.sosulPet", attributeNodes = @NamedAttributeNode("sosulPet"))
 public class SosulChart {
     @Id
     @Column(name = "CHART_ID")

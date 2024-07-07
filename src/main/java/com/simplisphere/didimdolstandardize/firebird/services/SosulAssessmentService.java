@@ -3,6 +3,7 @@ package com.simplisphere.didimdolstandardize.firebird.services;
 import com.simplisphere.didimdolstandardize.firebird.entities.SosulAssessment;
 import com.simplisphere.didimdolstandardize.firebird.repositories.SosulAssessmentRepository;
 import com.simplisphere.didimdolstandardize.postgresql.AssessmentStatus;
+import com.simplisphere.didimdolstandardize.postgresql.RuleType;
 import com.simplisphere.didimdolstandardize.postgresql.entities.*;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.ChartRepository;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.DiagnosisRepository;
@@ -42,7 +43,8 @@ public class SosulAssessmentService {
                         chart = chartRepository.findByOriginalId(sosulAssessment.getChart().getId().toString());
                     }
                     Patient patient = patientRepository.findByOriginalId(sosulAssessment.getPet().getId().toString());
-                    Optional<StandardizedRule> rule = ruleRepository.findByFromName(sosulAssessment.getName());
+                    log.info(sosulAssessment.getName());
+                    Optional<StandardizedRule> rule = ruleRepository.findByTypeAndFromNameAndHospital(RuleType.DIAGNOSIS, sosulAssessment.getName(), hospital);
                     // rule이 존재한다면 diagnosis에서 rule.toName과 같은 이름을 가진 객체를 조회하여 대입
                     Optional<Diagnosis> diagnosis = rule.flatMap(standardizedRule -> diagnosisRepository.findByName(standardizedRule.getToName()));
                     return Assessment.builder()
