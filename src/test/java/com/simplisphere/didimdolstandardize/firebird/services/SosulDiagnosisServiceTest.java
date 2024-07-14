@@ -32,10 +32,10 @@ class SosulDiagnosisServiceTest {
     }
 
     @Test
-    void saveHospitalDiagnosisAndSaveStandardDiagnosisFromSosulDiagnosis(@Autowired HospitalDiagnosisRepository hospitalDiagnosisRepository) {
+    void convertHospitalDiagnosisFromSosulDiagnosis(@Autowired HospitalDiagnosisRepository hospitalDiagnosisRepository) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
         PageRequest pageRequest = PageRequest.of(0, 1000, sort);
-        Page<HospitalDiagnosis> hospitalDiagnoses = sosulDiagnosisService.saveHospitalDiagnosisAndSaveStandardDiagnosisFromSosulDiagnosis(hospital, pageRequest);
+        Page<HospitalDiagnosis> hospitalDiagnoses = sosulDiagnosisService.convertHospitalDiagnosisFromSosulDiagnosis(hospital, pageRequest);
         hospitalDiagnosisRepository.saveAll(hospitalDiagnoses.getContent());
 
         int completed = 0;
@@ -44,7 +44,7 @@ class SosulDiagnosisServiceTest {
             completed += hospitalDiagnoses.getNumberOfElements();
             log.info("Laboratory Item 총 {} 중 {} 저장 완료", hospitalDiagnoses.getTotalElements(), completed);
             pageRequest = pageRequest.next();
-            hospitalDiagnoses = sosulDiagnosisService.saveHospitalDiagnosisAndSaveStandardDiagnosisFromSosulDiagnosis(hospital, pageRequest);
+            hospitalDiagnoses = sosulDiagnosisService.convertHospitalDiagnosisFromSosulDiagnosis(hospital, pageRequest);
         }
     }
 }

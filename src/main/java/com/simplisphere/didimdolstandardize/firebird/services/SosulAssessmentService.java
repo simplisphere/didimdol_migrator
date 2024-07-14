@@ -43,7 +43,7 @@ public class SosulAssessmentService {
                         chart = chartRepository.findByOriginalId(sosulAssessment.getChart().getId().toString());
                     }
                     Patient patient = patientRepository.findByOriginalId(sosulAssessment.getPet().getId().toString());
-                    log.info(sosulAssessment.getName());
+                    log.trace("original assessment name: {}", sosulAssessment.getName());
                     Optional<StandardizedRule> rule = ruleRepository.findByTypeAndFromNameAndHospital(RuleType.DIAGNOSIS, sosulAssessment.getName(), hospital);
                     // rule이 존재한다면 diagnosis에서 rule.toName과 같은 이름을 가진 객체를 조회하여 대입
                     Optional<Diagnosis> diagnosis = rule.flatMap(standardizedRule -> diagnosisRepository.findByName(standardizedRule.getToName()));

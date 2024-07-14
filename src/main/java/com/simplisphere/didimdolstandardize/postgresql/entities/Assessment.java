@@ -13,7 +13,7 @@ import lombok.*;
 public class Assessment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assessment_gen")
-    @SequenceGenerator(name = "assessment_gen", sequenceName = "assessment_id_seq", allocationSize = 1, initialValue = 100000)
+    @SequenceGenerator(name = "assessment_gen", sequenceName = "assessment_id_seq", allocationSize = 1000, initialValue = 100000)
     private Long id;
     private String name;
     @Enumerated(EnumType.ORDINAL)

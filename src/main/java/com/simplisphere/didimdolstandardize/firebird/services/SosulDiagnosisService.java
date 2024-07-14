@@ -8,7 +8,6 @@ import com.simplisphere.didimdolstandardize.postgresql.entities.Hospital;
 import com.simplisphere.didimdolstandardize.postgresql.entities.HospitalDiagnosis;
 import com.simplisphere.didimdolstandardize.postgresql.entities.StandardizedRule;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.DiagnosisRepository;
-import com.simplisphere.didimdolstandardize.postgresql.repositories.HospitalDiagnosisRepository;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.RuleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +30,8 @@ public class SosulDiagnosisService {
     // postgresql
     private final RuleRepository ruleRepository;
     private final DiagnosisRepository diagnosisRepository;
-    private final HospitalDiagnosisRepository hospitalDiagnosisRepository;
 
-    public Page<HospitalDiagnosis> saveHospitalDiagnosisAndSaveStandardDiagnosisFromSosulDiagnosis(Hospital hospital, PageRequest pageRequest) {
+    public Page<HospitalDiagnosis> convertHospitalDiagnosisFromSosulDiagnosis(Hospital hospital, PageRequest pageRequest) {
         // Sosul Diagnosis list 조회
         Page<SosulDiagnosis> sosulDiagnoses = sosulDxRepository.findAll(pageRequest);
 

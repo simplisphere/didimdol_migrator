@@ -19,7 +19,7 @@ public class LaboratoryResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lab_result_gen")
-    @SequenceGenerator(name = "lab_result_gen", sequenceName = "lab_result_id_seq", allocationSize = 1, initialValue = 10000)
+    @SequenceGenerator(name = "lab_result_gen", sequenceName = "lab_result_id_seq", allocationSize = 1000, initialValue = 10000)
     Long id;
 
     private String description;
@@ -31,7 +31,7 @@ public class LaboratoryResult {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "laboratory_item_id")
     private LaboratoryItem laboratoryItem;

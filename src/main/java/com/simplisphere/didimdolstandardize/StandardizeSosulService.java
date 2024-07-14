@@ -33,22 +33,32 @@ public class StandardizeSosulService {
     private final ChartRepository chartRepository;
 
     @Transactional
-    public Page<Patient> standardizedPatient(Hospital hospital, PageRequest pageRequest) {
+    public Page<Patient> standardizePatient(Hospital hospital, PageRequest pageRequest) {
         Page<Pair<SosulPet, SosulClient>> petsAndClients = sosulPetRepository.findAllPetsAndClients(pageRequest);
-        List<Patient> patients = saveAllPatientsFromOrigin(
-                hospital,
-                petsAndClients.get()
-//                        .filter(p -> p.a.getSosulOriginSpecies().toSpecies() != Species.ETC)
-                        .toList()
-        );
+        List<Patient> patients = petsAndClients.stream()
+                .parallel()
+//                .filter(p -> p.a.getSosulOriginSpecies().toSpecies() != Species.ETC)
+                .map(p -> {
+                    SosulPet sosulPet = p.a;
+                    SosulClient sosulClient = p.b;
+
+                    log.trace("original pet: {}", sosulPet.toString());
+                    Patient patient = Patient.builder().name(sosulPet.getName()).clientName(sosulClient.getName()).breed(sosulPet.getBreed())
+                            .birth(sosulPet.getBirth()).address("").phone("").sex(sosulPet.getSex()).originalId(sosulPet.getId().toString())
+                            .species(sosulPet.getSosulOriginSpecies().toSpecies()).hospital(hospital).build();
+                    log.trace("convert patient: {}", patient.toString());
+                    return patient;
+                }).toList();
 
         return new PageImpl<>(patients, petsAndClients.getPageable(), petsAndClients.getTotalElements());
     }
 
-    @Transactional
-    public Page<Chart> standardizedChart(Hospital hospital, PageRequest pageRequest) {
+    //    @Transactional
+    public Page<Chart> standardizeChart(Hospital hospital, PageRequest pageRequest) {
         Page<SosulChart> originCharts = sosulChartRepository.findAll(pageRequest);
         List<Chart> newCharts = originCharts
+                .stream()
+                .parallel()
 //                .filter(c -> c.getSosulPet().getSosulOriginSpecies().toSpecies() != Species.ETC)
                 .map(c -> {
                     log.trace("original chart: {}", c.toString());
@@ -60,23 +70,6 @@ public class StandardizeSosulService {
                             .originalPetId(c.getSosulPet().getId().toString()).build();
                 }).toList();
 
-        return new PageImpl<>(chartRepository.saveAll(newCharts), originCharts.getPageable(), originCharts.getTotalElements());
-    }
-
-
-    private List<Patient> saveAllPatientsFromOrigin(Hospital hospital, List<Pair<SosulPet, SosulClient>> petsAndClients) {
-        List<Patient> newPatients = petsAndClients.stream().map(p -> {
-            SosulPet sosulPet = p.a;
-            SosulClient sosulClient = p.b;
-
-            log.trace("original pet: {}", sosulPet.toString());
-            Patient patient = Patient.builder().name(sosulPet.getName()).clientName(sosulClient.getName()).breed(sosulPet.getBreed())
-                    .birth(sosulPet.getBirth()).address("").phone("").sex(sosulPet.getSex()).originalId(sosulPet.getId().toString())
-                    .species(sosulPet.getSosulOriginSpecies().toSpecies()).hospital(hospital).build();
-            log.trace("convert patient: {}", patient.toString());
-            return patient;
-        }).toList();
-
-        return patientRepository.saveAll(newPatients);
+        return new PageImpl<>(newCharts, originCharts.getPageable(), originCharts.getTotalElements());
     }
 }

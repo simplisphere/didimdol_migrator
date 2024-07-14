@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "Vital")
-@Table(indexes = @Index(name = "idx_original_id", columnList = "original_id"))
+@Table(indexes = @Index(name = "idx_original_id_on_vital", columnList = "original_id"))
 public class Vital {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vital_id_seq")
-    @SequenceGenerator(name = "vital_id_seq", sequenceName = "vital_id_seq", allocationSize = 1, initialValue = 10000)
+    @SequenceGenerator(name = "vital_id_seq", sequenceName = "vital_id_seq", allocationSize = 1000, initialValue = 10000)
     private Long id;
 
     private Float temperature;

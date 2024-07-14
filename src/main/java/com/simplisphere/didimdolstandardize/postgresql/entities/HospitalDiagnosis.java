@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class HospitalDiagnosis {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hospital_dx_gen")
-    @SequenceGenerator(name = "hospital_dx_gen", sequenceName = "hospital_dx_id_seq", allocationSize = 1, initialValue = 202400000)
+    @SequenceGenerator(name = "hospital_dx_gen", sequenceName = "hospital_dx_id_seq", allocationSize = 1000, initialValue = 202400000)
     private Long id;
 
     private String code;

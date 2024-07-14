@@ -15,11 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "Pet")
-@Table(indexes = @Index(name = "idx_original_id", columnList = "original_id"))
+@Table(indexes = @Index(name = "idx_original_id_on_patient", columnList = "original_id"))
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pet_gen")
-    @SequenceGenerator(name = "pet_gen", sequenceName = "pet_id_seq", allocationSize = 10, initialValue = 10000)
+    @SequenceGenerator(name = "pet_gen", sequenceName = "pet_id_seq", allocationSize = 1000, initialValue = 10000)
     private Long id;
 
     private String name;

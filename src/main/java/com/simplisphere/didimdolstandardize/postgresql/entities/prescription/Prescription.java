@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Prescription {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prescription_gen")
-    @SequenceGenerator(name = "prescription_gen", sequenceName = "prescription_id_seq", allocationSize = 1, initialValue = 100000)
+    @SequenceGenerator(name = "prescription_gen", sequenceName = "prescription_id_seq", allocationSize = 1000, initialValue = 100000)
     private Long id;
 
     private String code = "";

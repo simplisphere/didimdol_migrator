@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-@Table(indexes = @Index(name = "idx_original_id", columnList = "original_id"))
+@Table(indexes = @Index(name = "idx_original_id_on_chart", columnList = "original_id"))
 @NamedEntityGraph(name = "Chart.withPatient", attributeNodes = @NamedAttributeNode("patient"))
 public class Chart {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "chart_gen")
-    @SequenceGenerator(name = "chart_gen", sequenceName = "chart_id_seq", allocationSize = 1, initialValue = 100000)
+    @SequenceGenerator(name = "chart_gen", sequenceName = "chart_id_seq", allocationSize = 1000, initialValue = 100000)
     private Long id;
 
     private LocalDateTime chartDate;

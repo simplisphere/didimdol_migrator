@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,9 +37,5 @@ public class StandardizedLabService {
 
     public List<LaboratoryResult> saveLaboratoryResults(List<LaboratoryResult> laboratoryResults) {
         return laboratoryResultRepository.saveAll(laboratoryResults);
-    }
-
-    public Optional<LaboratoryItem> retrieveLaboratoryItemByName(String name) {
-        return laboratoryItemRepository.findByName(name);
     }
 }

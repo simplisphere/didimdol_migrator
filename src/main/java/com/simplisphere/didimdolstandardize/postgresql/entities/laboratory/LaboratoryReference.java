@@ -16,7 +16,7 @@ import org.hibernate.annotations.Comment;
 public class LaboratoryReference {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lab_reference_gen")
-    @SequenceGenerator(name = "lab_reference_gen", sequenceName = "lab_reference_id_seq", allocationSize = 1, initialValue = 10000)
+    @SequenceGenerator(name = "lab_reference_gen", sequenceName = "lab_reference_id_seq", allocationSize = 1000, initialValue = 10000)
     Long id;
 
     @Enumerated(EnumType.STRING)

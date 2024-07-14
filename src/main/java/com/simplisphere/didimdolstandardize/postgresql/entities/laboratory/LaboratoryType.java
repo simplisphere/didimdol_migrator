@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class LaboratoryType {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lab_type_gen")
-    @SequenceGenerator(name = "lab_type_gen", sequenceName = "lab_type_id_seq", allocationSize = 1, initialValue = 10000)
+    @SequenceGenerator(name = "lab_type_gen", sequenceName = "lab_type_id_seq", allocationSize = 1000, initialValue = 10000)
     Long id;
 
     private String name;
