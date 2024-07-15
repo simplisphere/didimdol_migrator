@@ -472,7 +472,7 @@ public class SosulMigrator implements Migrator {
 
     private void migrateChart(Hospital hospital) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
-        PageRequest pageRequest = PageRequest.of(0, 10000, sort);
+        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         int completed = 0;
         long totalElements;
         Page<Chart> charts;

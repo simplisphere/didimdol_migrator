@@ -17,7 +17,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -36,17 +39,50 @@ public class SosulAssessmentService {
         // original Assessment list 조회
         Page<SosulAssessment> sosulAssessments = sosulAssessmentRepository.findAll(pageRequest);
 
+        Set<String> chartIdSet = sosulAssessments.stream()
+                .map(SosulAssessment::getChart)
+                .filter(Objects::nonNull)
+                .map(chart -> chart.getId().toString())
+                .collect(Collectors.toSet());
+
+        Map<String, Chart> charts = chartRepository.findByOriginalIdIn(chartIdSet).stream()
+                .collect(Collectors.toMap(Chart::getOriginalId, chart -> chart));
+
+        Set<String> patientIdSet = sosulAssessments.stream()
+                .map(sosulAssessment -> sosulAssessment.getPet().getId().toString())
+                .collect(Collectors.toSet());
+
+        Map<String, Patient> patients = patientRepository.findByOriginalIdIn(patientIdSet).stream()
+                .collect(Collectors.toMap(Patient::getOriginalId, patient -> patient));
+
+        Set<String> assessmentNameSet = sosulAssessments.stream()
+                .map(SosulAssessment::getName)
+                .collect(Collectors.toSet());
+
+        // StandardizedRule을 미리 조회하여 맵으로 저장
+        List<StandardizedRule> ruleList = ruleRepository.findByTypeAndFromNameInAndHospital(RuleType.DIAGNOSIS, assessmentNameSet, hospital);
+        Map<String, StandardizedRule> rules = ruleList.stream()
+                .collect(Collectors.toMap(StandardizedRule::getFromName, rule -> rule));
+
+        // StandardizedRule에서 참조하는 모든 Diagnosis를 미리 조회하여 맵으로 저장
+        Set<String> ruleToNames = rules.values().stream()
+                .map(StandardizedRule::getToName)
+                .collect(Collectors.toSet());
+
+        Map<String, Diagnosis> diagnoses = diagnosisRepository.findByNameIn(ruleToNames).stream()
+                .collect(Collectors.toMap(Diagnosis::getName, diagnosis -> diagnosis));
+
         // original Assessment -> Assessment 변환
         List<Assessment> newAssessments = sosulAssessments.stream().parallel().map(sosulAssessment -> {
                     Chart chart = null;
                     if (sosulAssessment.getChart() != null) {
-                        chart = chartRepository.findByOriginalId(sosulAssessment.getChart().getId().toString());
+                        chart = charts.get(sosulAssessment.getChart().getId().toString());
                     }
-                    Patient patient = patientRepository.findByOriginalId(sosulAssessment.getPet().getId().toString());
+                    Patient patient = patients.get(sosulAssessment.getPet().getId().toString());
                     log.trace("original assessment name: {}", sosulAssessment.getName());
-                    Optional<StandardizedRule> rule = ruleRepository.findByTypeAndFromNameAndHospital(RuleType.DIAGNOSIS, sosulAssessment.getName(), hospital);
-                    // rule이 존재한다면 diagnosis에서 rule.toName과 같은 이름을 가진 객체를 조회하여 대입
-                    Optional<Diagnosis> diagnosis = rule.flatMap(standardizedRule -> diagnosisRepository.findByName(standardizedRule.getToName()));
+                    StandardizedRule rule = rules.get(sosulAssessment.getName());
+                    // rule이 존재한다면 미리 조회한 diagnosis 맵에서 값을 가져와 대입
+                    Diagnosis diagnosis = (rule != null) ? diagnoses.get(rule.getToName()) : null;
                     return Assessment.builder()
                             .name(sosulAssessment.getName())
                             .status(AssessmentStatus.Final_Diagnosis)
@@ -54,7 +90,7 @@ public class SosulAssessmentService {
                             .originalPetId(sosulAssessment.getPet().getId().toString())
                             .doctor(sosulAssessment.getSign())
                             .chart(chart)
-                            .diagnosis(diagnosis.orElse(null))
+                            .diagnosis(diagnosis)
                             .patient(patient)
                             .hospital(hospital)
                             .build();

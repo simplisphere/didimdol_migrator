@@ -17,7 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -35,16 +37,27 @@ public class SosulDiagnosisService {
         // Sosul Diagnosis list 조회
         Page<SosulDiagnosis> sosulDiagnoses = sosulDxRepository.findAll(pageRequest);
 
+        Set<String> diagnosisNames = sosulDiagnoses.stream()
+                .map(SosulDiagnosis::getName)
+                .collect(Collectors.toSet());
+
+        List<StandardizedRule> ruleList = ruleRepository.findByTypeAndFromNameInAndHospital(RuleType.DIAGNOSIS, diagnosisNames, hospital);
+        Map<String, StandardizedRule> rules = ruleList.stream().collect(Collectors.toMap(StandardizedRule::getFromName, rule -> rule));
+        Set<String> ruleToNames = rules.values().stream().map(StandardizedRule::getToName).collect(Collectors.toSet());
+
+        Map<String, Diagnosis> diagnoses = diagnosisRepository.findByNameIn(ruleToNames).stream()
+                .collect(Collectors.toMap(Diagnosis::getName, diagnosis -> diagnosis));
+
         // Sosul Diagnosis -> Hospital Diagnosis 변환
         List<HospitalDiagnosis> newHospitalDiagnoses = sosulDiagnoses.stream().parallel().map(sosulDiagnosis -> {
-                    Optional<StandardizedRule> rule = ruleRepository.findByTypeAndFromNameAndHospital(RuleType.DIAGNOSIS, sosulDiagnosis.getName(), hospital);
-                    // rule이 존재한다면 diagnosis에서 rule.toName과 같은 이름을 가진 객체를 조회하여 대입
-                    Optional<Diagnosis> diagnosis = rule.flatMap(standardizedRule -> diagnosisRepository.findByName(standardizedRule.getToName()));
+                    StandardizedRule rule = rules.get(sosulDiagnosis.getName());
+                    // rule이 존재한다면 미리 조회한 diagnosis 맵에서 값을 가져와 대입
+                    Diagnosis diagnosis = (rule != null) ? diagnoses.get(rule.getToName()) : null;
                     return HospitalDiagnosis.builder()
                             .code(sosulDiagnosis.getCode())
                             .name(sosulDiagnosis.getName())
                             .description(sosulDiagnosis.getStdName())
-                            .diagnosis(diagnosis.orElse(null))
+                            .diagnosis(diagnosis)
                             .originalId(sosulDiagnosis.getId().toString())
                             .hospital(hospital)
                             .build();
