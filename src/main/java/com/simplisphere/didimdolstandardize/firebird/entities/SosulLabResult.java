@@ -11,6 +11,15 @@ import org.hibernate.annotations.Comment;
 @AllArgsConstructor
 @Entity
 @Table(name = "LABRESULT")
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "SosulLabResult.withLabDateAndLabItem",
+                attributeNodes = {
+                        @NamedAttributeNode("labDate"),
+                        @NamedAttributeNode("labItem")
+                }
+        )
+})
 @Comment("검사 항목 별 결과 수치")
 public class SosulLabResult {
 

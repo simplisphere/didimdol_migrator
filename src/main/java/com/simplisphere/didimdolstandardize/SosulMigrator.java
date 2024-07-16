@@ -472,7 +472,7 @@ public class SosulMigrator implements Migrator {
 
     private void migrateChart(Hospital hospital) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
-        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
+        PageRequest pageRequest = PageRequest.of(0, 5000, sort);
         int completed = 0;
         long totalElements;
         Page<Chart> charts;
@@ -491,7 +491,7 @@ public class SosulMigrator implements Migrator {
 
     private void migrateAssessment() {
         Sort sort = Sort.by(Sort.Order.asc("id"));
-        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
+        PageRequest pageRequest = PageRequest.of(0, 2000, sort);
         int completed = 0;
         long totalElements;
         Page<Assessment> assessments;
@@ -510,7 +510,7 @@ public class SosulMigrator implements Migrator {
 
     private void migrateDiagnosis(Hospital hospital) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
-        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
+        PageRequest pageRequest = PageRequest.of(0, 2000, sort);
         int completed = 0;
         long totalElements;
         Page<HospitalDiagnosis> hospitalDiagnoses;
@@ -536,7 +536,7 @@ public class SosulMigrator implements Migrator {
 
     private void migrateLaboratoryType(Hospital hospital) {
         Sort sort = Sort.by(Sort.Order.asc("labProductId"));
-        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
+        PageRequest pageRequest = PageRequest.of(0, 2000, sort);
         int completed = 0;
         long totalElements;
         Page<LaboratoryType> newLaboratoryTypes;
@@ -555,7 +555,7 @@ public class SosulMigrator implements Migrator {
 
     private void migrateLaboratoryItem(Hospital hospital) {
         Sort sort = Sort.by(Sort.Order.asc("labItemId"));
-        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
+        PageRequest pageRequest = PageRequest.of(0, 2000, sort);
         int completed = 0;
         long totalElements;
         Page<LaboratoryItem> newLaboratoryItems;
@@ -574,7 +574,7 @@ public class SosulMigrator implements Migrator {
 
     private void migrateLaboratoryReference(Hospital hospital) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
-        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
+        PageRequest pageRequest = PageRequest.of(0, 2000, sort);
         int completed = 0;
         long totalElements;
         Page<LaboratoryReference> newLaboratoryRefs;
@@ -631,7 +631,7 @@ public class SosulMigrator implements Migrator {
 
     private void migrateVital(Hospital hospital) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
-        PageRequest pageRequest = PageRequest.of(0, 1000, sort);
+        PageRequest pageRequest = PageRequest.of(0, 5000, sort);
         int completed = 0;
         long totalElements;
         Page<Vital> newVitals;
