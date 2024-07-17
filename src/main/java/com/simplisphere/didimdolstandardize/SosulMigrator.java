@@ -121,112 +121,117 @@ public class SosulMigrator implements Migrator {
 
     // 표준화 Diagnosis 룰 생성
     private void prepareStandardizationDiagnosisRule(Hospital hospital) {
+
+        List<StandardizedRule> rules = new ArrayList<>();
+
         // 신장 질환
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 1").description("신장 질환 표준화 룰 1").type(RuleType.DIAGNOSIS).fromName("만성신장질환").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 2").description("신장 질환 표준화 룰 2").type(RuleType.DIAGNOSIS).fromName("신장병").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 3").description("신장 질환 표준화 룰 3").type(RuleType.DIAGNOSIS).fromName("다낭성 신장, 간 질환").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 4").description("신장 질환 표준화 룰 4").type(RuleType.DIAGNOSIS).fromName("신장결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 5").description("신장 질환 표준화 룰 5").type(RuleType.DIAGNOSIS).fromName("우측신장결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 6").description("신장 질환 표준화 룰 6").type(RuleType.DIAGNOSIS).fromName("신장 결석(우측)").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 7").description("신장 질환 표준화 룰 7").type(RuleType.DIAGNOSIS).fromName("만성 신장 질환 (신부전 포함)").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 8").description("신장 질환 표준화 룰 8").type(RuleType.DIAGNOSIS).fromName("다낭신장질환, 원발만성신장질환").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 9").description("신장 질환 표준화 룰 9").type(RuleType.DIAGNOSIS).fromName("우측 신장경색").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 10").description("신장 질환 표준화 룰 10").type(RuleType.DIAGNOSIS).fromName("원발신장질환 iris stage1-2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 11").description("신장 질환 표준화 룰 11").type(RuleType.DIAGNOSIS).fromName("원발신장질환 stage2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 13").description("신장 질환 표준화 룰 13").type(RuleType.DIAGNOSIS).fromName("우측신장위축").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 14").description("신장 질환 표준화 룰 14").type(RuleType.DIAGNOSIS).fromName("우측신장 위축").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 15").description("신장 질환 표준화 룰 15").type(RuleType.DIAGNOSIS).fromName("만성신장질환-희석뇨 & 저칼륨혈증 의심됨").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 16").description("신장 질환 표준화 룰 16").type(RuleType.DIAGNOSIS).fromName("만성신장병").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 17").description("신장 질환 표준화 룰 17").type(RuleType.DIAGNOSIS).fromName("다낭신장병").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 18").description("신장 질환 표준화 룰 18").type(RuleType.DIAGNOSIS).fromName("원발신장질환 iris stage3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 19").description("신장 질환 표준화 룰 19").type(RuleType.DIAGNOSIS).fromName("신장질환-희석뇨, 신장수치 증가").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 20").description("신장 질환 표준화 룰 20").type(RuleType.DIAGNOSIS).fromName("신장결석 - 양측").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 21").description("신장 질환 표준화 룰 21").type(RuleType.DIAGNOSIS).fromName("원발만성신장질환").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 22").description("신장 질환 표준화 룰 22").type(RuleType.DIAGNOSIS).fromName("신장 결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 23").description("신장 질환 표준화 룰 23").type(RuleType.DIAGNOSIS).fromName("우측신장위축, 좌측cyst").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 24").description("신장 질환 표준화 룰 24").type(RuleType.DIAGNOSIS).fromName("신장위축").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 25").description("신장 질환 표준화 룰 25").type(RuleType.DIAGNOSIS).fromName("신장 수질 경계부 불명확").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 26").description("신장 질환 표준화 룰 26").type(RuleType.DIAGNOSIS).fromName("신장요관결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 27").description("신장 질환 표준화 룰 27").type(RuleType.DIAGNOSIS).fromName("좌측신우확장, 양쪽신장 cm junction loss").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 28").description("신장 질환 표준화 룰 28").type(RuleType.DIAGNOSIS).fromName("신장 변연부 irregular").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 29").description("신장 질환 표준화 룰 29").type(RuleType.DIAGNOSIS).fromName("양쪽 신장 CM junction 소실").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 30").description("신장 질환 표준화 룰 30").type(RuleType.DIAGNOSIS).fromName("좌신결석, 신장실루엣 변화").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 31").description("신장 질환 표준화 룰 31").type(RuleType.DIAGNOSIS).fromName("양쪽모두 신장결석 및 석회화").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 32").description("신장 질환 표준화 룰 32").type(RuleType.DIAGNOSIS).fromName("양쪽 신장결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 33").description("신장 질환 표준화 룰 33").type(RuleType.DIAGNOSIS).fromName("신장기능저하").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 34").description("신장 질환 표준화 룰 34").type(RuleType.DIAGNOSIS).fromName("양측신장결석, 우신신우확장").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 35").description("신장 질환 표준화 룰 35").type(RuleType.DIAGNOSIS).fromName("우측 신장 결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 36").description("신장 질환 표준화 룰 36").type(RuleType.DIAGNOSIS).fromName("좌측신장결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 37").description("신장 질환 표준화 룰 37").type(RuleType.DIAGNOSIS).fromName("양측신장 결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 38").description("신장 질환 표준화 룰 38").type(RuleType.DIAGNOSIS).fromName("우측 신장 위축").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 39").description("신장 질환 표준화 룰 39").type(RuleType.DIAGNOSIS).fromName("양측 신장 결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 40").description("신장 질환 표준화 룰 40").type(RuleType.DIAGNOSIS).fromName("만성신장질환w/신결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 41").description("신장 질환 표준화 룰 41").type(RuleType.DIAGNOSIS).fromName("ckd iris stage 2 - 양쪽 신장결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 42").description("신장 질환 표준화 룰 42").type(RuleType.DIAGNOSIS).fromName("신장결석, 변연부 변형").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 43").description("신장 질환 표준화 룰 43").type(RuleType.DIAGNOSIS).fromName("만성신장병 iris stage1").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 44").description("신장 질환 표준화 룰 44").type(RuleType.DIAGNOSIS).fromName("다낭성, 사수체낭성 신장질환, 신장 낭종").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 45").description("신장 질환 표준화 룰 45").type(RuleType.DIAGNOSIS).fromName("CKD iris stage2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 46").description("신장 질환 표준화 룰 46").type(RuleType.DIAGNOSIS).fromName("CKD iris stage 2(terminal) suspected W/ CM").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 47").description("신장 질환 표준화 룰 47").type(RuleType.DIAGNOSIS).fromName("CKD w/ 좌신 신우확장").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 48").description("신장 질환 표준화 룰 48").type(RuleType.DIAGNOSIS).fromName("CKD/결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 49").description("신장 질환 표준화 룰 49").type(RuleType.DIAGNOSIS).fromName("CKD iris stage 4").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 50").description("신장 질환 표준화 룰 50").type(RuleType.DIAGNOSIS).fromName("CKD stage4").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 51").description("신장 질환 표준화 룰 51").type(RuleType.DIAGNOSIS).fromName("CKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 52").description("신장 질환 표준화 룰 52").type(RuleType.DIAGNOSIS).fromName("CKD stage1").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 53").description("신장 질환 표준화 룰 53").type(RuleType.DIAGNOSIS).fromName("CKD iris stage3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 54").description("신장 질환 표준화 룰 54").type(RuleType.DIAGNOSIS).fromName("CKD stage2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 55").description("신장 질환 표준화 룰 55").type(RuleType.DIAGNOSIS).fromName("ckd IRIS STAGE 1 SUSPECTED").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 56").description("신장 질환 표준화 룰 56").type(RuleType.DIAGNOSIS).fromName("만성콩팥질환 IRIS STAGE-").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 57").description("신장 질환 표준화 룰 57").type(RuleType.DIAGNOSIS).fromName("우측PKD suspected").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 58").description("신장 질환 표준화 룰 58").type(RuleType.DIAGNOSIS).fromName("CKD suspected").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 59").description("신장 질환 표준화 룰 59").type(RuleType.DIAGNOSIS).fromName("CKD iris stage1").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 60").description("신장 질환 표준화 룰 60").type(RuleType.DIAGNOSIS).fromName("PKD with hepatic cyst").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 61").description("신장 질환 표준화 룰 61").type(RuleType.DIAGNOSIS).fromName("CKD stage 3-4").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 63").description("신장 질환 표준화 룰 63").type(RuleType.DIAGNOSIS).fromName("PKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 64").description("신장 질환 표준화 룰 64").type(RuleType.DIAGNOSIS).fromName("CKD iris stage 2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 65").description("신장 질환 표준화 룰 65").type(RuleType.DIAGNOSIS).fromName("CKD iris stage1-2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 66").description("신장 질환 표준화 룰 66").type(RuleType.DIAGNOSIS).fromName("bilateral PKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 67").description("신장 질환 표준화 룰 67").type(RuleType.DIAGNOSIS).fromName("ckd 2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 68").description("신장 질환 표준화 룰 68").type(RuleType.DIAGNOSIS).fromName("CKD stage3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 69").description("신장 질환 표준화 룰 69").type(RuleType.DIAGNOSIS).fromName("CKD iris stage 1-2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 71").description("신장 질환 표준화 룰 71").type(RuleType.DIAGNOSIS).fromName("CKD with azotemia").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 72").description("신장 질환 표준화 룰 72").type(RuleType.DIAGNOSIS).fromName("CKD stage2-3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 73").description("신장 질환 표준화 룰 73").type(RuleType.DIAGNOSIS).fromName("CKD iris stage3-4").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 74").description("신장 질환 표준화 룰 74").type(RuleType.DIAGNOSIS).fromName("CKD iris stage3 with proteinuria").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 75").description("신장 질환 표준화 룰 75").type(RuleType.DIAGNOSIS).fromName("mutiple PKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 76").description("신장 질환 표준화 룰 76").type(RuleType.DIAGNOSIS).fromName(":CKD  iris stage 2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 77").description("신장 질환 표준화 룰 77").type(RuleType.DIAGNOSIS).fromName("PKD & CKD iris stage2-3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 78").description("신장 질환 표준화 룰 78").type(RuleType.DIAGNOSIS).fromName("CKD stage2 w/ 희석뇨").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 79").description("신장 질환 표준화 룰 79").type(RuleType.DIAGNOSIS).fromName("suspected CKD iris stage 1").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 80").description("신장 질환 표준화 룰 80").type(RuleType.DIAGNOSIS).fromName("CKD iris stage2 의증").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 81").description("신장 질환 표준화 룰 81").type(RuleType.DIAGNOSIS).fromName("CKD 4").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 82").description("신장 질환 표준화 룰 82").type(RuleType.DIAGNOSIS).fromName("ckd iris stage 3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 83").description("신장 질환 표준화 룰 83").type(RuleType.DIAGNOSIS).fromName("CKD - 희석뇨, 요독증, 고인혈증").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 84").description("신장 질환 표준화 룰 84").type(RuleType.DIAGNOSIS).fromName("CKD 2-3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 85").description("신장 질환 표준화 룰 85").type(RuleType.DIAGNOSIS).fromName("PKD & CKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 86").description("신장 질환 표준화 룰 86").type(RuleType.DIAGNOSIS).fromName("CKD iris stage2-3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 87").description("신장 질환 표준화 룰 87").type(RuleType.DIAGNOSIS).fromName("ckd iris2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 88").description("신장 질환 표준화 룰 88").type(RuleType.DIAGNOSIS).fromName("고인혈증, CKD stage3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 89").description("신장 질환 표준화 룰 89").type(RuleType.DIAGNOSIS).fromName("방광염, 췌장염, CKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 90").description("신장 질환 표준화 룰 90").type(RuleType.DIAGNOSIS).fromName("CKD stage2 with PKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 91").description("신장 질환 표준화 룰 91").type(RuleType.DIAGNOSIS).fromName("희석뇨, ckd 1-2stage").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("신장 질환 92").description("신장 질환 표준화 룰 92").type(RuleType.DIAGNOSIS).fromName("CKD iris stag2 2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 1").description("신장 질환 표준화 룰 1").type(RuleType.DIAGNOSIS).fromName("만성신장질환").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 2").description("신장 질환 표준화 룰 2").type(RuleType.DIAGNOSIS).fromName("신장병").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 3").description("신장 질환 표준화 룰 3").type(RuleType.DIAGNOSIS).fromName("다낭성 신장, 간 질환").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 4").description("신장 질환 표준화 룰 4").type(RuleType.DIAGNOSIS).fromName("신장결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 5").description("신장 질환 표준화 룰 5").type(RuleType.DIAGNOSIS).fromName("우측신장결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 6").description("신장 질환 표준화 룰 6").type(RuleType.DIAGNOSIS).fromName("신장 결석(우측)").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 7").description("신장 질환 표준화 룰 7").type(RuleType.DIAGNOSIS).fromName("만성 신장 질환 (신부전 포함)").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 8").description("신장 질환 표준화 룰 8").type(RuleType.DIAGNOSIS).fromName("다낭신장질환, 원발만성신장질환").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 9").description("신장 질환 표준화 룰 9").type(RuleType.DIAGNOSIS).fromName("우측 신장경색").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 10").description("신장 질환 표준화 룰 10").type(RuleType.DIAGNOSIS).fromName("원발신장질환 iris stage1-2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 11").description("신장 질환 표준화 룰 11").type(RuleType.DIAGNOSIS).fromName("원발신장질환 stage2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 13").description("신장 질환 표준화 룰 13").type(RuleType.DIAGNOSIS).fromName("우측신장위축").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 14").description("신장 질환 표준화 룰 14").type(RuleType.DIAGNOSIS).fromName("우측신장 위축").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 15").description("신장 질환 표준화 룰 15").type(RuleType.DIAGNOSIS).fromName("만성신장질환-희석뇨 & 저칼륨혈증 의심됨").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 16").description("신장 질환 표준화 룰 16").type(RuleType.DIAGNOSIS).fromName("만성신장병").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 17").description("신장 질환 표준화 룰 17").type(RuleType.DIAGNOSIS).fromName("다낭신장병").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 18").description("신장 질환 표준화 룰 18").type(RuleType.DIAGNOSIS).fromName("원발신장질환 iris stage3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 19").description("신장 질환 표준화 룰 19").type(RuleType.DIAGNOSIS).fromName("신장질환-희석뇨, 신장수치 증가").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 20").description("신장 질환 표준화 룰 20").type(RuleType.DIAGNOSIS).fromName("신장결석 - 양측").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 21").description("신장 질환 표준화 룰 21").type(RuleType.DIAGNOSIS).fromName("원발만성신장질환").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 22").description("신장 질환 표준화 룰 22").type(RuleType.DIAGNOSIS).fromName("신장 결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 23").description("신장 질환 표준화 룰 23").type(RuleType.DIAGNOSIS).fromName("우측신장위축, 좌측cyst").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 24").description("신장 질환 표준화 룰 24").type(RuleType.DIAGNOSIS).fromName("신장위축").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 25").description("신장 질환 표준화 룰 25").type(RuleType.DIAGNOSIS).fromName("신장 수질 경계부 불명확").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 26").description("신장 질환 표준화 룰 26").type(RuleType.DIAGNOSIS).fromName("신장요관결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 27").description("신장 질환 표준화 룰 27").type(RuleType.DIAGNOSIS).fromName("좌측신우확장, 양쪽신장 cm junction loss").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 28").description("신장 질환 표준화 룰 28").type(RuleType.DIAGNOSIS).fromName("신장 변연부 irregular").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 29").description("신장 질환 표준화 룰 29").type(RuleType.DIAGNOSIS).fromName("양쪽 신장 CM junction 소실").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 30").description("신장 질환 표준화 룰 30").type(RuleType.DIAGNOSIS).fromName("좌신결석, 신장실루엣 변화").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 31").description("신장 질환 표준화 룰 31").type(RuleType.DIAGNOSIS).fromName("양쪽모두 신장결석 및 석회화").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 32").description("신장 질환 표준화 룰 32").type(RuleType.DIAGNOSIS).fromName("양쪽 신장결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 33").description("신장 질환 표준화 룰 33").type(RuleType.DIAGNOSIS).fromName("신장기능저하").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 34").description("신장 질환 표준화 룰 34").type(RuleType.DIAGNOSIS).fromName("양측신장결석, 우신신우확장").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 35").description("신장 질환 표준화 룰 35").type(RuleType.DIAGNOSIS).fromName("우측 신장 결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 36").description("신장 질환 표준화 룰 36").type(RuleType.DIAGNOSIS).fromName("좌측신장결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 37").description("신장 질환 표준화 룰 37").type(RuleType.DIAGNOSIS).fromName("양측신장 결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 38").description("신장 질환 표준화 룰 38").type(RuleType.DIAGNOSIS).fromName("우측 신장 위축").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 39").description("신장 질환 표준화 룰 39").type(RuleType.DIAGNOSIS).fromName("양측 신장 결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 40").description("신장 질환 표준화 룰 40").type(RuleType.DIAGNOSIS).fromName("만성신장질환w/신결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 41").description("신장 질환 표준화 룰 41").type(RuleType.DIAGNOSIS).fromName("ckd iris stage 2 - 양쪽 신장결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 42").description("신장 질환 표준화 룰 42").type(RuleType.DIAGNOSIS).fromName("신장결석, 변연부 변형").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 43").description("신장 질환 표준화 룰 43").type(RuleType.DIAGNOSIS).fromName("만성신장병 iris stage1").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 44").description("신장 질환 표준화 룰 44").type(RuleType.DIAGNOSIS).fromName("다낭성, 사수체낭성 신장질환, 신장 낭종").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 45").description("신장 질환 표준화 룰 45").type(RuleType.DIAGNOSIS).fromName("CKD iris stage2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 46").description("신장 질환 표준화 룰 46").type(RuleType.DIAGNOSIS).fromName("CKD iris stage 2(terminal) suspected W/ CM").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 47").description("신장 질환 표준화 룰 47").type(RuleType.DIAGNOSIS).fromName("CKD w/ 좌신 신우확장").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 48").description("신장 질환 표준화 룰 48").type(RuleType.DIAGNOSIS).fromName("CKD/결석").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 49").description("신장 질환 표준화 룰 49").type(RuleType.DIAGNOSIS).fromName("CKD iris stage 4").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 50").description("신장 질환 표준화 룰 50").type(RuleType.DIAGNOSIS).fromName("CKD stage4").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 51").description("신장 질환 표준화 룰 51").type(RuleType.DIAGNOSIS).fromName("CKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 52").description("신장 질환 표준화 룰 52").type(RuleType.DIAGNOSIS).fromName("CKD stage1").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 53").description("신장 질환 표준화 룰 53").type(RuleType.DIAGNOSIS).fromName("CKD iris stage3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 54").description("신장 질환 표준화 룰 54").type(RuleType.DIAGNOSIS).fromName("CKD stage2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 55").description("신장 질환 표준화 룰 55").type(RuleType.DIAGNOSIS).fromName("ckd IRIS STAGE 1 SUSPECTED").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 56").description("신장 질환 표준화 룰 56").type(RuleType.DIAGNOSIS).fromName("만성콩팥질환 IRIS STAGE-").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 57").description("신장 질환 표준화 룰 57").type(RuleType.DIAGNOSIS).fromName("우측PKD suspected").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 58").description("신장 질환 표준화 룰 58").type(RuleType.DIAGNOSIS).fromName("CKD suspected").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 59").description("신장 질환 표준화 룰 59").type(RuleType.DIAGNOSIS).fromName("CKD iris stage1").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 60").description("신장 질환 표준화 룰 60").type(RuleType.DIAGNOSIS).fromName("PKD with hepatic cyst").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 61").description("신장 질환 표준화 룰 61").type(RuleType.DIAGNOSIS).fromName("CKD stage 3-4").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 63").description("신장 질환 표준화 룰 63").type(RuleType.DIAGNOSIS).fromName("PKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 64").description("신장 질환 표준화 룰 64").type(RuleType.DIAGNOSIS).fromName("CKD iris stage 2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 65").description("신장 질환 표준화 룰 65").type(RuleType.DIAGNOSIS).fromName("CKD iris stage1-2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 66").description("신장 질환 표준화 룰 66").type(RuleType.DIAGNOSIS).fromName("bilateral PKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 67").description("신장 질환 표준화 룰 67").type(RuleType.DIAGNOSIS).fromName("ckd 2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 68").description("신장 질환 표준화 룰 68").type(RuleType.DIAGNOSIS).fromName("CKD stage3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 69").description("신장 질환 표준화 룰 69").type(RuleType.DIAGNOSIS).fromName("CKD iris stage 1-2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 71").description("신장 질환 표준화 룰 71").type(RuleType.DIAGNOSIS).fromName("CKD with azotemia").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 72").description("신장 질환 표준화 룰 72").type(RuleType.DIAGNOSIS).fromName("CKD stage2-3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 73").description("신장 질환 표준화 룰 73").type(RuleType.DIAGNOSIS).fromName("CKD iris stage3-4").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 74").description("신장 질환 표준화 룰 74").type(RuleType.DIAGNOSIS).fromName("CKD iris stage3 with proteinuria").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 75").description("신장 질환 표준화 룰 75").type(RuleType.DIAGNOSIS).fromName("mutiple PKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 76").description("신장 질환 표준화 룰 76").type(RuleType.DIAGNOSIS).fromName(":CKD  iris stage 2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 77").description("신장 질환 표준화 룰 77").type(RuleType.DIAGNOSIS).fromName("PKD & CKD iris stage2-3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 78").description("신장 질환 표준화 룰 78").type(RuleType.DIAGNOSIS).fromName("CKD stage2 w/ 희석뇨").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 79").description("신장 질환 표준화 룰 79").type(RuleType.DIAGNOSIS).fromName("suspected CKD iris stage 1").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 80").description("신장 질환 표준화 룰 80").type(RuleType.DIAGNOSIS).fromName("CKD iris stage2 의증").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 81").description("신장 질환 표준화 룰 81").type(RuleType.DIAGNOSIS).fromName("CKD 4").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 82").description("신장 질환 표준화 룰 82").type(RuleType.DIAGNOSIS).fromName("ckd iris stage 3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 83").description("신장 질환 표준화 룰 83").type(RuleType.DIAGNOSIS).fromName("CKD - 희석뇨, 요독증, 고인혈증").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 84").description("신장 질환 표준화 룰 84").type(RuleType.DIAGNOSIS).fromName("CKD 2-3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 85").description("신장 질환 표준화 룰 85").type(RuleType.DIAGNOSIS).fromName("PKD & CKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 86").description("신장 질환 표준화 룰 86").type(RuleType.DIAGNOSIS).fromName("CKD iris stage2-3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 87").description("신장 질환 표준화 룰 87").type(RuleType.DIAGNOSIS).fromName("ckd iris2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 88").description("신장 질환 표준화 룰 88").type(RuleType.DIAGNOSIS).fromName("고인혈증, CKD stage3").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 89").description("신장 질환 표준화 룰 89").type(RuleType.DIAGNOSIS).fromName("방광염, 췌장염, CKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 90").description("신장 질환 표준화 룰 90").type(RuleType.DIAGNOSIS).fromName("CKD stage2 with PKD").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 91").description("신장 질환 표준화 룰 91").type(RuleType.DIAGNOSIS).fromName("희석뇨, ckd 1-2stage").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("신장 질환 92").description("신장 질환 표준화 룰 92").type(RuleType.DIAGNOSIS).fromName("CKD iris stag2 2").toName("신장 질환").hospital(hospital).created(LocalDateTime.now()).build());
 
         // 당뇨 질환
-        ruleRepository.save(StandardizedRule.builder().name("당뇨 질환 1").description("당뇨 질환 표준화 룰 1").type(RuleType.DIAGNOSIS).fromName("당뇨병").toName("당뇨 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("당뇨 질환 1").description("당뇨 질환 표준화 룰 1").type(RuleType.DIAGNOSIS).fromName("당뇨병").toName("당뇨 질환").hospital(hospital).created(LocalDateTime.now()).build());
 
         // 비만 질환
-        ruleRepository.save(StandardizedRule.builder().name("비만 질환 1").description("비만 질환 표준화 룰 1").type(RuleType.DIAGNOSIS).fromName("비만").toName("비만 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("비만 질환 2").description("비만 질환 표준화 룰 2").type(RuleType.DIAGNOSIS).fromName("비만세포종- 건강검진").toName("비만 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("비만 질환 1").description("비만 질환 표준화 룰 1").type(RuleType.DIAGNOSIS).fromName("비만").toName("비만 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("비만 질환 2").description("비만 질환 표준화 룰 2").type(RuleType.DIAGNOSIS).fromName("비만세포종- 건강검진").toName("비만 질환").hospital(hospital).created(LocalDateTime.now()).build());
 
         // 심장 질환
-        ruleRepository.save(StandardizedRule.builder().name("심장 질환 1").description("심장 질환 표준화 룰 1").type(RuleType.DIAGNOSIS).fromName("비대심근증 B1").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("심장 질환 2").description("심장 질환 표준화 룰 2").type(RuleType.DIAGNOSIS).fromName("비대성 심장근육병증").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("심장 질환 3").description("심장 질환 표준화 룰 3").type(RuleType.DIAGNOSIS).fromName("비대심근증(유두근)").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("심장 질환 4").description("심장 질환 표준화 룰 4").type(RuleType.DIAGNOSIS).fromName("심근증").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("심장 질환 5").description("심장 질환 표준화 룰 5").type(RuleType.DIAGNOSIS).fromName("갑상샘기능항진증, 간병증. 심근질환").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("심장 질환 6").description("심장 질환 표준화 룰 6").type(RuleType.DIAGNOSIS).fromName("심근질환").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("심장 질환 7").description("심장 질환 표준화 룰 7").type(RuleType.DIAGNOSIS).fromName("비대심근증").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("심장 질환 1").description("심장 질환 표준화 룰 1").type(RuleType.DIAGNOSIS).fromName("비대심근증 B1").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("심장 질환 2").description("심장 질환 표준화 룰 2").type(RuleType.DIAGNOSIS).fromName("비대성 심장근육병증").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("심장 질환 3").description("심장 질환 표준화 룰 3").type(RuleType.DIAGNOSIS).fromName("비대심근증(유두근)").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("심장 질환 4").description("심장 질환 표준화 룰 4").type(RuleType.DIAGNOSIS).fromName("심근증").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("심장 질환 5").description("심장 질환 표준화 룰 5").type(RuleType.DIAGNOSIS).fromName("갑상샘기능항진증, 간병증. 심근질환").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("심장 질환 6").description("심장 질환 표준화 룰 6").type(RuleType.DIAGNOSIS).fromName("심근질환").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("심장 질환 7").description("심장 질환 표준화 룰 7").type(RuleType.DIAGNOSIS).fromName("비대심근증").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
+
+        ruleRepository.saveAll(rules);
     }
 
     // 표준 약품 데이터 생성
@@ -244,22 +249,27 @@ public class SosulMigrator implements Migrator {
 
     // 표준화 Medicine 룰 생성
     private void prepareStandardizationMedicationRule(Hospital hospital) {
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 1").description("약품 맵핑 1").type(RuleType.PRESCRIPTION).fromName("S_레메론_정_30T/box").toName("레메론 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 2").description("약품 맵핑 2").type(RuleType.PRESCRIPTION).fromName("S_베나실_정_100T/box").toName("베나실 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 3").description("약품 맵핑 3").type(RuleType.PRESCRIPTION).fromName("S_텔미원_정_30T_box").toName("텔미원 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 4").description("약품 맵핑 4").type(RuleType.PRESCRIPTION).fromName("S_레나메진_캡슐_7cap/90포/box").toName("레나메진 캡슐").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 5").description("약품 맵핑 5").type(RuleType.PRESCRIPTION).fromName("S_세레니아_정_4T/box").toName("세레니아 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 6").description("약품 맵핑 6").type(RuleType.PRESCRIPTION).fromName("레메론_정_15.0mg_30T").toName("레메론 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 7").description("약품 맵핑 7").type(RuleType.PRESCRIPTION).fromName("세레니아_정_24mg_4T").toName("세레니아 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 8").description("약품 맵핑 8").type(RuleType.PRESCRIPTION).fromName("베나실(benacil)_정_10mg_100T").toName("베나실 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 9").description("약품 맵핑 9").type(RuleType.PRESCRIPTION).fromName("암로디핀_정__5mg_30T").toName("암로디핀 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 10").description("약품 맵핑 10").type(RuleType.PRESCRIPTION).fromName("텔미로탄_정_40mg_30T").toName("텔미로탄 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 11").description("약품 맵핑 11").type(RuleType.PRESCRIPTION).fromName("텔미원_정_40mg_30T").toName("텔미원 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 12").description("약품 맵핑 12").type(RuleType.PRESCRIPTION).fromName("세레니아_정_16mg_4T").toName("세레니아 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 13").description("약품 맵핑 13").type(RuleType.PRESCRIPTION).fromName("텔미로탄").toName("텔미로탄 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 14").description("약품 맵핑 14").type(RuleType.PRESCRIPTION).fromName("S_Caninsulin 40IE/ml(캐닌슐린) 10ml_주사_주사비").toName("캐닌슐린 주사").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 15").description("약품 맵핑 15").type(RuleType.PRESCRIPTION).fromName("S_아스피린_정_100T/box").toName("아스피린 정").hospital(hospital).created(LocalDateTime.now()).build());
-        ruleRepository.save(StandardizedRule.builder().name("약품 맵핑 16").description("약품 맵핑 16").type(RuleType.PRESCRIPTION).fromName("아스피린_정_100mg_100T").toName("아스피린 정").hospital(hospital).created(LocalDateTime.now()).build());
+
+        List<StandardizedRule> rules = new ArrayList<>();
+
+        rules.add(StandardizedRule.builder().name("약품 맵핑 1").description("약품 맵핑 1").type(RuleType.PRESCRIPTION).fromName("S_레메론_정_30T/box").toName("레메론 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 2").description("약품 맵핑 2").type(RuleType.PRESCRIPTION).fromName("S_베나실_정_100T/box").toName("베나실 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 3").description("약품 맵핑 3").type(RuleType.PRESCRIPTION).fromName("S_텔미원_정_30T_box").toName("텔미원 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 4").description("약품 맵핑 4").type(RuleType.PRESCRIPTION).fromName("S_레나메진_캡슐_7cap/90포/box").toName("레나메진 캡슐").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 5").description("약품 맵핑 5").type(RuleType.PRESCRIPTION).fromName("S_세레니아_정_4T/box").toName("세레니아 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 6").description("약품 맵핑 6").type(RuleType.PRESCRIPTION).fromName("레메론_정_15.0mg_30T").toName("레메론 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 7").description("약품 맵핑 7").type(RuleType.PRESCRIPTION).fromName("세레니아_정_24mg_4T").toName("세레니아 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 8").description("약품 맵핑 8").type(RuleType.PRESCRIPTION).fromName("베나실(benacil)_정_10mg_100T").toName("베나실 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 9").description("약품 맵핑 9").type(RuleType.PRESCRIPTION).fromName("암로디핀_정__5mg_30T").toName("암로디핀 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 10").description("약품 맵핑 10").type(RuleType.PRESCRIPTION).fromName("텔미로탄_정_40mg_30T").toName("텔미로탄 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 11").description("약품 맵핑 11").type(RuleType.PRESCRIPTION).fromName("텔미원_정_40mg_30T").toName("텔미원 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 12").description("약품 맵핑 12").type(RuleType.PRESCRIPTION).fromName("세레니아_정_16mg_4T").toName("세레니아 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 13").description("약품 맵핑 13").type(RuleType.PRESCRIPTION).fromName("텔미로탄").toName("텔미로탄 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 14").description("약품 맵핑 14").type(RuleType.PRESCRIPTION).fromName("S_Caninsulin 40IE/ml(캐닌슐린) 10ml_주사_주사비").toName("캐닌슐린 주사").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 15").description("약품 맵핑 15").type(RuleType.PRESCRIPTION).fromName("S_아스피린_정_100T/box").toName("아스피린 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("약품 맵핑 16").description("약품 맵핑 16").type(RuleType.PRESCRIPTION).fromName("아스피린_정_100mg_100T").toName("아스피린 정").hospital(hospital).created(LocalDateTime.now()).build());
+
+        ruleRepository.saveAll(rules);
     }
 
     // 표준화 마커 생성
