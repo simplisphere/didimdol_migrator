@@ -1,4 +1,4 @@
-package com.simplisphere.didimdolstandardize.postgresql;
+package com.simplisphere.didimdolstandardize.postgresql.services;
 
 import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryItem;
 import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryReference;
@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class StandardizedLabService {
+public class LaboratoryService {
     private final LaboratoryTypeRepository laboratoryTypeRepository;
     private final LaboratoryItemRepository laboratoryItemRepository;
     private final LaboratoryReferenceRepository laboratoryReferenceRepository;

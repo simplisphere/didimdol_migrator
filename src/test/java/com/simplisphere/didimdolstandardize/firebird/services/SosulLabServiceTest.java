@@ -1,12 +1,12 @@
 package com.simplisphere.didimdolstandardize.firebird.services;
 
-import com.simplisphere.didimdolstandardize.postgresql.StandardizedLabService;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Hospital;
 import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryItem;
 import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryReference;
 import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryResult;
 import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryType;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.HospitalRepository;
+import com.simplisphere.didimdolstandardize.postgresql.services.LaboratoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ class SosulLabServiceTest {
 
     @Test
     @Order(1)
-    void convertStandardizedLabTypeFromOriginalLabProduct(@Autowired StandardizedLabService laboratoryLabService) {
+    void convertStandardizedLabTypeFromOriginalLabProduct(@Autowired LaboratoryService laboratoryLabService) {
         Sort sort = Sort.by(Sort.Order.asc("labProductId"));
         PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         Page<LaboratoryType> newLaboratorytypes = sosulLabService.convertStandardizedLabTypeFromOriginalLabProduct(hospital, pageRequest);
@@ -54,7 +54,7 @@ class SosulLabServiceTest {
 
     @Test
     @Order(2)
-    void convertStandardizedLabItemFromOriginalLabItem(@Autowired StandardizedLabService laboratoryLabService) {
+    void convertStandardizedLabItemFromOriginalLabItem(@Autowired LaboratoryService laboratoryLabService) {
         Sort sort = Sort.by(Sort.Order.asc("labItemId"));
         PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         Page<LaboratoryItem> newLaboratoryItems = sosulLabService.convertStandardizedLabItemFromOriginalLabItem(hospital, pageRequest);
@@ -72,7 +72,7 @@ class SosulLabServiceTest {
 
     @Test
     @Order(3)
-    void generateStandardizedLabRef(@Autowired StandardizedLabService laboratoryLabService) {
+    void generateStandardizedLabRef(@Autowired LaboratoryService laboratoryLabService) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
         PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         Page<LaboratoryReference> newLaboratoryRefs = sosulLabService.convertStandardizedLabReferenceFromOriginalLabRange(hospital, pageRequest);
@@ -90,7 +90,7 @@ class SosulLabServiceTest {
 
     @Test
     @Order(4)
-    void generateStandardizedLabResult(@Autowired StandardizedLabService laboratoryLabService) {
+    void generateStandardizedLabResult(@Autowired LaboratoryService laboratoryLabService) {
         Sort sort = Sort.by(Sort.Order.asc("labResultId"));
         PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         Page<LaboratoryResult> newLaboratoryResults = sosulLabService.convertLaboratoryResultFromOriginalLabResult(hospital, pageRequest);

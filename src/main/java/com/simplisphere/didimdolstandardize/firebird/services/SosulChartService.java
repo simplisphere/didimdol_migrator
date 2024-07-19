@@ -1,19 +1,13 @@
-package com.simplisphere.didimdolstandardize;
+package com.simplisphere.didimdolstandardize.firebird.services;
 
-import com.simplisphere.didimdolstandardize.firebird.SosulChart;
-import com.simplisphere.didimdolstandardize.firebird.SosulChartRepository;
-import com.simplisphere.didimdolstandardize.firebird.SosulClient;
-import com.simplisphere.didimdolstandardize.firebird.SosulPet;
-import com.simplisphere.didimdolstandardize.firebird.repositories.SosulPetRepository;
+import com.simplisphere.didimdolstandardize.firebird.entities.SosulChart;
+import com.simplisphere.didimdolstandardize.firebird.repositories.SosulChartRepository;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Chart;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Hospital;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Patient;
-import com.simplisphere.didimdolstandardize.postgresql.repositories.ChartRepository;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.PatientRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -28,35 +22,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class StandardizeSosulService {
-    private final SosulPetRepository sosulPetRepository;
+public class SosulChartService {
     private final SosulChartRepository sosulChartRepository;
 
+    // postgresql
     private final PatientRepository patientRepository;
-    private final ChartRepository chartRepository;
 
-    @Transactional
-    public Page<Patient> standardizePatient(Hospital hospital, PageRequest pageRequest) {
-        Page<Pair<SosulPet, SosulClient>> petsAndClients = sosulPetRepository.findAllPetsAndClients(pageRequest);
-        List<Patient> patients = petsAndClients.stream()
-                .parallel()
-//                .filter(p -> p.a.getSosulOriginSpecies().toSpecies() != Species.ETC)
-                .map(p -> {
-                    SosulPet sosulPet = p.a;
-                    SosulClient sosulClient = p.b;
-
-                    log.trace("original pet: {}", sosulPet.toString());
-                    Patient patient = Patient.builder().name(sosulPet.getName()).clientName(sosulClient.getName()).breed(sosulPet.getBreed())
-                            .birth(sosulPet.getBirth()).address("").phone("").sex(sosulPet.getSex()).originalId(sosulPet.getId().toString())
-                            .species(sosulPet.getSosulOriginSpecies().toSpecies()).hospital(hospital).build();
-                    log.trace("convert patient: {}", patient.toString());
-                    return patient;
-                }).toList();
-
-        return new PageImpl<>(patients, petsAndClients.getPageable(), petsAndClients.getTotalElements());
-    }
-
-    //    @Transactional
     public Page<Chart> standardizeChart(Hospital hospital, PageRequest pageRequest) {
         Page<SosulChart> originCharts = sosulChartRepository.findAll(pageRequest);
 

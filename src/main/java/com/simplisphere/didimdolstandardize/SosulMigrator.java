@@ -4,7 +4,6 @@ import com.simplisphere.didimdolstandardize.firebird.services.*;
 import com.simplisphere.didimdolstandardize.postgresql.MarkerType;
 import com.simplisphere.didimdolstandardize.postgresql.RuleType;
 import com.simplisphere.didimdolstandardize.postgresql.Species;
-import com.simplisphere.didimdolstandardize.postgresql.StandardizedLabService;
 import com.simplisphere.didimdolstandardize.postgresql.entities.*;
 import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryItem;
 import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryReference;
@@ -13,21 +12,27 @@ import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.Labor
 import com.simplisphere.didimdolstandardize.postgresql.entities.prescription.Medicine;
 import com.simplisphere.didimdolstandardize.postgresql.entities.prescription.Prescription;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.*;
+import com.simplisphere.didimdolstandardize.postgresql.services.LaboratoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class SosulMigrator implements Migrator {
+    private final ApplicationContext applicationContext;
+
     private final HospitalRepository targetHospitalRepository;
     private final DiagnosisRepository diagnosisRepository;
     private final RuleRepository ruleRepository;
@@ -40,14 +45,15 @@ public class SosulMigrator implements Migrator {
     private final VitalRepository vitalRepository;
     private final PrescriptionRepository prescriptionRepository;
 
+    private final SosulPetService sosulPetService;
+    private final SosulChartService sosulChartService;
     private final SosulAssessmentService sosulAssessmentService;
-    private final StandardizeSosulService standardizeSosulService;
     private final SosulDiagnosisService sosulDiagnosisService;
     private final SosulVitalService sosulVitalService;
     private final SosulPrescriptionService sosulPrescriptionService;
     private final SosulLabService sosulLabService;
 
-    private final StandardizedLabService laboratoryLabService;
+    private final LaboratoryService laboratoryLabService;
 
     private Hospital hospital;
 
@@ -74,26 +80,33 @@ public class SosulMigrator implements Migrator {
 
     @Override
     public void migrate() {
+        Migrator self = applicationContext.getBean(Migrator.class);
+
         log.info("환자 데이터 표준화");
-        migratePatient(hospital);
+        CompletableFuture<Void> patientFuture = self.migratePatient(hospital);
 
         log.info("차트 데이터 표준화");
-        migrateChart(hospital);
+        CompletableFuture<Void> chartFuture = patientFuture.thenCompose(result -> self.migrateChart(hospital));
 
-        log.info("Assessment 마이그레이션");
-        migrateAssessment();
+        CompletableFuture<Void> assessmentAndDiagnosisFuture = chartFuture.thenCompose(result -> {
+            log.info("Assessment 마이그레이션");
+            CompletableFuture<Void> assessmentFuture = self.migrateAssessment();
+            log.info("Diagnosis 마이그레이션");
+            CompletableFuture<Void> diagnosisFuture = self.migrateDiagnosis(hospital);
+            return CompletableFuture.allOf(assessmentFuture, diagnosisFuture);
+        });
 
-        log.info("Diagnosis 마이그레이션");
-        migrateDiagnosis(hospital);
+        CompletableFuture<Void> finalFuture = assessmentAndDiagnosisFuture.thenCompose(result -> {
+            log.info("Laboratory Examination 마이그레이션");
+            CompletableFuture<Void> laboratoryFuture = self.migrateLaboratory(hospital);
+            log.info("Prescription 마이그레이션");
+            CompletableFuture<Void> prescriptionFuture = self.migratePrescription(hospital);
+            log.info("Vital 마이그레이션");
+            CompletableFuture<Void> vitalFuture = self.migrateVital(hospital);
+            return CompletableFuture.allOf(laboratoryFuture, prescriptionFuture, vitalFuture);
+        });
 
-        log.info("Laboratory 마이그레이션");
-        migrateLaboratory(hospital);
-
-        log.info("Prescription 마이그레이션");
-        migratePrescription(hospital);
-
-        log.info("Vital 마이그레이션");
-        migrateVital(hospital);
+        finalFuture.join();
     }
 
     @Override
@@ -461,7 +474,9 @@ public class SosulMigrator implements Migrator {
         standardMarkerRepository.saveAll(markers);
     }
 
-    private void migratePatient(Hospital hospital) {
+    @Async
+    @Override
+    public CompletableFuture<Void> migratePatient(Hospital hospital) {
         Sort sort = Sort.by("id").ascending();
         PageRequest pageRequest = PageRequest.of(0, 1000, sort);
         int completed = 0;
@@ -469,7 +484,7 @@ public class SosulMigrator implements Migrator {
         Page<Patient> patients;
 
         do {
-            patients = standardizeSosulService.standardizePatient(hospital, pageRequest);
+            patients = sosulPetService.standardizePatient(hospital, pageRequest);
             patientRepository.saveAll(patients.getContent());
             completed += patients.getNumberOfElements();
             totalElements = patients.getTotalElements();
@@ -478,9 +493,12 @@ public class SosulMigrator implements Migrator {
         } while (patients.hasNext());
 
         log.info("migrated patient count: {}", totalElements);
+        return CompletableFuture.completedFuture(null);
     }
 
-    private void migrateChart(Hospital hospital) {
+    @Async
+    @Override
+    public CompletableFuture<Void> migrateChart(Hospital hospital) {
         Sort sort = Sort.by(Sort.Order.asc("id"));
         PageRequest pageRequest = PageRequest.of(0, 5000, sort);
         int completed = 0;
@@ -488,7 +506,7 @@ public class SosulMigrator implements Migrator {
         Page<Chart> charts;
 
         do {
-            charts = standardizeSosulService.standardizeChart(hospital, pageRequest);
+            charts = sosulChartService.standardizeChart(hospital, pageRequest);
             chartRepository.saveAll(charts.getContent());
             completed += charts.getNumberOfElements();
             totalElements = charts.getTotalElements();
@@ -497,9 +515,13 @@ public class SosulMigrator implements Migrator {
         } while (charts.hasNext());
 
         log.info("migrated chart count: {}", totalElements);
+        return CompletableFuture.completedFuture(null);
     }
 
-    private void migrateAssessment() {
+    @Async
+    @Override
+    public CompletableFuture<Void> migrateAssessment() {
+        log.info("Assessment migration started");
         Sort sort = Sort.by(Sort.Order.asc("id"));
         PageRequest pageRequest = PageRequest.of(0, 2000, sort);
         int completed = 0;
@@ -516,9 +538,13 @@ public class SosulMigrator implements Migrator {
         } while (assessments.hasNext());
 
         log.info("migrated assessments count: {}", totalElements);
+        return CompletableFuture.completedFuture(null);
     }
 
-    private void migrateDiagnosis(Hospital hospital) {
+    @Async
+    @Override
+    public CompletableFuture<Void> migrateDiagnosis(Hospital hospital) {
+        log.info("Diagnosis migration started");
         Sort sort = Sort.by(Sort.Order.asc("id"));
         PageRequest pageRequest = PageRequest.of(0, 2000, sort);
         int completed = 0;
@@ -535,16 +561,23 @@ public class SosulMigrator implements Migrator {
         } while (hospitalDiagnoses.hasNext());
 
         log.info("migrated hospitalDiagnosis count: {}", totalElements);
+        return CompletableFuture.completedFuture(null);
     }
 
-    private void migrateLaboratory(Hospital hospital) {
-        migrateLaboratoryType(hospital);
-        migrateLaboratoryItem(hospital);
-        migrateLaboratoryReference(hospital);
-        migrateLaboratoryResult(hospital);
+    @Async
+    @Override
+    public CompletableFuture<Void> migrateLaboratory(Hospital hospital) {
+        log.info("Laboratory migration started");
+        return migrateLaboratoryType(hospital)
+                .thenCompose(result -> migrateLaboratoryItem(hospital))
+                .thenCompose(result -> migrateLaboratoryReference(hospital))
+                .thenCompose(result -> migrateLaboratoryResult(hospital));
     }
 
-    private void migrateLaboratoryType(Hospital hospital) {
+    @Async
+    @Override
+    public CompletableFuture<Void> migrateLaboratoryType(Hospital hospital) {
+        log.info("Laboratory Type migration started");
         Sort sort = Sort.by(Sort.Order.asc("labProductId"));
         PageRequest pageRequest = PageRequest.of(0, 2000, sort);
         int completed = 0;
@@ -561,9 +594,13 @@ public class SosulMigrator implements Migrator {
         } while (newLaboratoryTypes.hasNext());
 
         log.info("migrated laboratory type count: {}", totalElements);
+        return CompletableFuture.completedFuture(null);
     }
 
-    private void migrateLaboratoryItem(Hospital hospital) {
+    @Async
+    @Override
+    public CompletableFuture<Void> migrateLaboratoryItem(Hospital hospital) {
+        log.info("Laboratory Item migration started");
         Sort sort = Sort.by(Sort.Order.asc("labItemId"));
         PageRequest pageRequest = PageRequest.of(0, 2000, sort);
         int completed = 0;
@@ -580,9 +617,13 @@ public class SosulMigrator implements Migrator {
         } while (newLaboratoryItems.hasNext());
 
         log.info("migrated laboratory item count: {}", totalElements);
+        return CompletableFuture.completedFuture(null);
     }
 
-    private void migrateLaboratoryReference(Hospital hospital) {
+    @Async
+    @Override
+    public CompletableFuture<Void> migrateLaboratoryReference(Hospital hospital) {
+        log.info("Laboratory Reference migration started");
         Sort sort = Sort.by(Sort.Order.asc("id"));
         PageRequest pageRequest = PageRequest.of(0, 2000, sort);
         int completed = 0;
@@ -599,9 +640,13 @@ public class SosulMigrator implements Migrator {
         } while (newLaboratoryRefs.hasNext());
 
         log.info("migrated laboratory reference count: {}", totalElements);
+        return CompletableFuture.completedFuture(null);
     }
 
-    private void migrateLaboratoryResult(Hospital hospital) {
+    @Async
+    @Override
+    public CompletableFuture<Void> migrateLaboratoryResult(Hospital hospital) {
+        log.info("Laboratory Result migration started");
         Sort sort = Sort.by(Sort.Order.asc("labResultId"));
         PageRequest pageRequest = PageRequest.of(0, 10000, sort);
         int completed = 0;
@@ -618,9 +663,13 @@ public class SosulMigrator implements Migrator {
         } while (newLaboratoryResults.hasNext());
 
         log.info("migrated laboratory result count: {}", totalElements);
+        return CompletableFuture.completedFuture(null);
     }
 
-    private void migratePrescription(Hospital hospital) {
+    @Async
+    @Override
+    public CompletableFuture<Void> migratePrescription(Hospital hospital) {
+        log.info("Prescription migration started");
         Sort sort = Sort.by(Sort.Order.asc("id"));
         PageRequest pageRequest = PageRequest.of(0, 5000, sort);
         int completed = 0;
@@ -637,9 +686,13 @@ public class SosulMigrator implements Migrator {
         } while (prescriptions.hasNext());
 
         log.info("migrated prescription count: {}", totalElements);
+        return CompletableFuture.completedFuture(null);
     }
 
-    private void migrateVital(Hospital hospital) {
+    @Async
+    @Override
+    public CompletableFuture<Void> migrateVital(Hospital hospital) {
+        log.info("Vital migration started");
         Sort sort = Sort.by(Sort.Order.asc("id"));
         PageRequest pageRequest = PageRequest.of(0, 5000, sort);
         int completed = 0;
@@ -656,6 +709,7 @@ public class SosulMigrator implements Migrator {
         } while (newVitals.hasNext());
 
         log.info("migrated vital count: {}", totalElements);
+        return CompletableFuture.completedFuture(null);
     }
 
     private StandardizeDiagnosisMarker generateLaboratoryMarker(Diagnosis diagnosis, String code, String name, Species species, String unit, Float minRef, Float maxRef) {

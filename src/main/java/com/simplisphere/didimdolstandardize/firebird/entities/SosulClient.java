@@ -1,4 +1,4 @@
-package com.simplisphere.didimdolstandardize.firebird;
+package com.simplisphere.didimdolstandardize.firebird.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

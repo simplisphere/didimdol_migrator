@@ -1,5 +1,7 @@
-package com.simplisphere.didimdolstandardize.firebird;
+package com.simplisphere.didimdolstandardize.firebird.entities;
 
+import com.simplisphere.didimdolstandardize.firebird.SosulOriginSpecies;
+import com.simplisphere.didimdolstandardize.firebird.SosulOriginalSpeciesConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

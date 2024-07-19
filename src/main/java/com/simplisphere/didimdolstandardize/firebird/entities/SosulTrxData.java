@@ -1,6 +1,5 @@
 package com.simplisphere.didimdolstandardize.firebird.entities;
 
-import com.simplisphere.didimdolstandardize.firebird.SosulChart;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
