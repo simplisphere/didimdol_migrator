@@ -26,6 +26,7 @@ public class Chart {
     private String objective;
     private String originalId;
     private String originalPetId;
+    @Column(columnDefinition = "TEXT")
     private String cc;
     private String doctor;
 

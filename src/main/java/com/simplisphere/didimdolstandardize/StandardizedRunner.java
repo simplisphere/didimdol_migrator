@@ -28,7 +28,7 @@ public class StandardizedRunner implements ApplicationRunner {
 
         Instant start = Instant.now();
 
-        log.info("start sosul migration");
+        log.info("start migration");
 
         migrator.beforeMigrate();
         migrator.migrate();

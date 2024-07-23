@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class StandardizedRule {
     @Id
     @GeneratedValue(generator = "standardized_rule_id_seq")
-    @SequenceGenerator(name = "standardized_rule_id_seq", sequenceName = "standardized_rule_id_seq", allocationSize = 1, initialValue = 10000)
+    @SequenceGenerator(name = "standardized_rule_id_seq", sequenceName = "standardized_rule_id_seq", allocationSize = 1000, initialValue = 10000)
     private Long id;
     @Enumerated(EnumType.STRING)
     private RuleType type;
