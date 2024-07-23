@@ -1,18 +1,12 @@
 package com.simplisphere.didimdolstandardize;
 
-import com.simplisphere.didimdolstandardize.mssql.migrators.AssessmentMigrator;
-import com.simplisphere.didimdolstandardize.mssql.migrators.ChartMigrator;
-import com.simplisphere.didimdolstandardize.mssql.migrators.DiagnosisMigrator;
-import com.simplisphere.didimdolstandardize.mssql.migrators.PatientMigrator;
+import com.simplisphere.didimdolstandardize.mssql.migrators.*;
 import com.simplisphere.didimdolstandardize.postgresql.RuleType;
 import com.simplisphere.didimdolstandardize.postgresql.entities.*;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.AssessmentRepository;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.HospitalRepository;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.PatientRepository;
-import com.simplisphere.didimdolstandardize.postgresql.services.ChartService;
-import com.simplisphere.didimdolstandardize.postgresql.services.DiagnosisService;
-import com.simplisphere.didimdolstandardize.postgresql.services.HospitalDiagnosisService;
-import com.simplisphere.didimdolstandardize.postgresql.services.RuleService;
+import com.simplisphere.didimdolstandardize.postgresql.services.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -45,6 +39,8 @@ public class GogangMigrator implements Migrator {
     private final AssessmentRepository assessmentRepository;
     private final ChartMigrator chartMigrator;
     private final ChartService chartService;
+    private final VitalMigrator vitalMigrator;
+    private final VitalService vitalService;
 
     private Hospital hospital;
 
@@ -315,6 +311,23 @@ public class GogangMigrator implements Migrator {
 
     @Override
     public CompletableFuture<Void> migrateVital(Hospital hospital) {
+        log.info("Vital migration started");
+//        Sort sort = Sort.by(Sort.Order.desc("createdAt")).and(Sort.by(Sort.Order.asc("id")));
+        PageRequest pageRequest = PageRequest.of(0, 5000);
+        int completed = 0;
+        long totalElements;
+        Page<Vital> newVitals;
+
+        do {
+            newVitals = vitalMigrator.convertVital(hospital, pageRequest);
+            vitalService.saveAll(newVitals.getContent());
+            completed += newVitals.getNumberOfElements();
+            totalElements = newVitals.getTotalElements();
+            log.debug("Vital 총 {} 중 {} 저장 완료", newVitals.getTotalElements(), completed);
+            pageRequest = pageRequest.next();
+        } while (newVitals.hasNext());
+
+        log.info("migrated vital count: {}", totalElements);
         return CompletableFuture.completedFuture(null);
     }
 }
