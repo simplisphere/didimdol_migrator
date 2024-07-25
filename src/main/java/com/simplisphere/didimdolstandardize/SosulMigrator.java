@@ -12,7 +12,7 @@ import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.Labor
 import com.simplisphere.didimdolstandardize.postgresql.entities.prescription.Medicine;
 import com.simplisphere.didimdolstandardize.postgresql.entities.prescription.Prescription;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.*;
-import com.simplisphere.didimdolstandardize.postgresql.services.LaboratoryService;
+import com.simplisphere.didimdolstandardize.postgresql.services.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -34,15 +34,10 @@ public class SosulMigrator implements Migrator {
 
     private final HospitalRepository targetHospitalRepository;
     private final DiagnosisRepository diagnosisRepository;
-    private final RuleRepository ruleRepository;
-    private final MedicineRepository medicineRepository;
-    private final StandardMarkerRepository standardMarkerRepository;
     private final AssessmentRepository assessmentRepository;
     private final ChartRepository chartRepository;
     private final PatientRepository patientRepository;
     private final HospitalDiagnosisRepository hospitalDiagnosisRepository;
-    private final VitalRepository vitalRepository;
-    private final PrescriptionRepository prescriptionRepository;
 
     private final SosulPetService sosulPetService;
     private final SosulChartService sosulChartService;
@@ -53,6 +48,12 @@ public class SosulMigrator implements Migrator {
     private final SosulLabService sosulLabService;
 
     private final LaboratoryService laboratoryLabService;
+    private final MedicineService medicineService;
+    private final DiagnosisService diagnosisService;
+    private final RuleService ruleService;
+    private final StandardMarkerService standardMarkerService;
+    private final PrescriptionService prescriptionService;
+    private final VitalService vitalService;
 
     private Hospital hospital;
 
@@ -125,10 +126,10 @@ public class SosulMigrator implements Migrator {
 
     // 표준 진단 데이터 생성
     private void prepareDiagnosis() {
-        diagnosisRepository.save(Diagnosis.builder().code("A1001").description("표준화 신장 질환").name("신장 질환").created(LocalDateTime.now()).updated(LocalDateTime.now()).build());
-        diagnosisRepository.save(Diagnosis.builder().code("B1001").description("표준화 당뇨 질환").name("당뇨 질환").created(LocalDateTime.now()).updated(LocalDateTime.now()).build());
-        diagnosisRepository.save(Diagnosis.builder().code("C1001").description("표준화 비만 질환").name("비만 질환").created(LocalDateTime.now()).updated(LocalDateTime.now()).build());
-        diagnosisRepository.save(Diagnosis.builder().code("D1001").description("표준화 심장 질환").name("심장 질환").created(LocalDateTime.now()).updated(LocalDateTime.now()).build());
+        diagnosisService.findOrCreate(Diagnosis.builder().code("A1001").description("표준화 신장 질환").name("신장 질환").created(LocalDateTime.now()).updated(LocalDateTime.now()).build());
+        diagnosisService.findOrCreate(Diagnosis.builder().code("B1001").description("표준화 당뇨 질환").name("당뇨 질환").created(LocalDateTime.now()).updated(LocalDateTime.now()).build());
+        diagnosisService.findOrCreate(Diagnosis.builder().code("C1001").description("표준화 비만 질환").name("비만 질환").created(LocalDateTime.now()).updated(LocalDateTime.now()).build());
+        diagnosisService.findOrCreate(Diagnosis.builder().code("D1001").description("표준화 심장 질환").name("심장 질환").created(LocalDateTime.now()).updated(LocalDateTime.now()).build());
     }
 
     // 표준화 Diagnosis 룰 생성
@@ -243,20 +244,20 @@ public class SosulMigrator implements Migrator {
         rules.add(StandardizedRule.builder().name("심장 질환 6").description("심장 질환 표준화 룰 6").type(RuleType.DIAGNOSIS).fromName("심근질환").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
         rules.add(StandardizedRule.builder().name("심장 질환 7").description("심장 질환 표준화 룰 7").type(RuleType.DIAGNOSIS).fromName("비대심근증").toName("심장 질환").hospital(hospital).created(LocalDateTime.now()).build());
 
-        ruleRepository.saveAll(rules);
+        ruleService.saveAll(rules);
     }
 
     // 표준 약품 데이터 생성
     private void prepareMedicine() {
-        medicineRepository.save(Medicine.builder().description("표준 레메론 정").name("레메론 정").build());
-        medicineRepository.save(Medicine.builder().description("표준 베나실 정").name("베나실 정").build());
-        medicineRepository.save(Medicine.builder().description("표준 텔미원 정").name("텔미원 정").build());
-        medicineRepository.save(Medicine.builder().description("표준 레나메진 캡슐").name("레나메진 캡슐").build());
-        medicineRepository.save(Medicine.builder().description("표준 세레니아 정").name("세레니아 정").build());
-        medicineRepository.save(Medicine.builder().description("표준 암로디핀 정").name("암로디핀 정").build());
-        medicineRepository.save(Medicine.builder().description("표준 텔미로탄 정").name("텔미로탄 정").build());
-        medicineRepository.save(Medicine.builder().description("표준 아스피린 정").name("아스피린 정").build());
-        medicineRepository.save(Medicine.builder().description("표준 캐닌슐린 주사").name("캐닌슐린 주사").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 레메론 정").name("레메론 정").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 베나실 정").name("베나실 정").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 텔미원 정").name("텔미원 정").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 레나메진 캡슐").name("레나메진 캡슐").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 세레니아 정").name("세레니아 정").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 암로디핀 정").name("암로디핀 정").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 텔미로탄 정").name("텔미로탄 정").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 아스피린 정").name("아스피린 정").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 캐닌슐린 주사").name("캐닌슐린 주사").build());
     }
 
     // 표준화 Medicine 룰 생성
@@ -281,7 +282,7 @@ public class SosulMigrator implements Migrator {
         rules.add(StandardizedRule.builder().name("약품 맵핑 15").description("약품 맵핑 15").type(RuleType.PRESCRIPTION).fromName("S_아스피린_정_100T/box").toName("아스피린 정").hospital(hospital).created(LocalDateTime.now()).build());
         rules.add(StandardizedRule.builder().name("약품 맵핑 16").description("약품 맵핑 16").type(RuleType.PRESCRIPTION).fromName("아스피린_정_100mg_100T").toName("아스피린 정").hospital(hospital).created(LocalDateTime.now()).build());
 
-        ruleRepository.saveAll(rules);
+        ruleService.saveAll(rules);
     }
 
     // 표준화 마커 생성
@@ -470,7 +471,7 @@ public class SosulMigrator implements Migrator {
             markers.add(generatePrescriptionMarker(diagnosis4, medicineName, medicineName + " 처방", Species.CANINE));
         });
 
-        standardMarkerRepository.saveAll(markers);
+        standardMarkerService.saveAll(markers);
     }
 
     @Async
@@ -677,7 +678,7 @@ public class SosulMigrator implements Migrator {
 
         do {
             prescriptions = sosulPrescriptionService.convertPrescriptionFromHospitalPrescription(hospital, pageRequest);
-            prescriptionRepository.saveAll(prescriptions.getContent());
+            prescriptionService.saveAll(prescriptions.getContent());
             completed += prescriptions.getNumberOfElements();
             totalElements = prescriptions.getTotalElements();
             log.debug("Prescription 총 {} 중 {} 저장 완료", prescriptions.getTotalElements(), completed);
@@ -700,7 +701,7 @@ public class SosulMigrator implements Migrator {
 
         do {
             newVitals = sosulVitalService.convertVitalFromSosulVital(hospital, pageRequest);
-            vitalRepository.saveAll(newVitals.getContent());
+            vitalService.saveAll(newVitals.getContent());
             completed += newVitals.getNumberOfElements();
             totalElements = newVitals.getTotalElements();
             log.debug("Vital 총 {} 중 {} 저장 완료", newVitals.getTotalElements(), completed);

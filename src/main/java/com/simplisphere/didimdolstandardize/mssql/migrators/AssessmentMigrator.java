@@ -37,7 +37,7 @@ public class AssessmentMigrator {
         Page<MsAssessment> legacyAssessmentPage = msAssessmentService.findAssessments(pageRequest);
 
         Set<String> legacyChartIdSet = legacyAssessmentPage.stream()
-                .map(msAssessment -> msAssessment.getChartId().toString() + "1")
+                .map(msAssessment -> msAssessment.getChartId().toString() + "01")
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
 
@@ -65,7 +65,7 @@ public class AssessmentMigrator {
         List<Assessment> newAssessments = legacyAssessmentPage.stream().parallel().map(legacyAssessment -> {
                     Chart chart = null;
                     if (legacyAssessment.getChartId() != null) {
-                        chart = charts.get(legacyAssessment.getChartId().toString() + "1");
+                        chart = charts.get(legacyAssessment.getChartId().toString() + "01");
                     }
                     Patient patient = patients.get(legacyAssessment.getPet().getId().toString());
                     log.trace("original assessment name: {}", legacyAssessment.getName());

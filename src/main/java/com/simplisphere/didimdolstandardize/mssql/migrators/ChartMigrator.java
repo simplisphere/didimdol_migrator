@@ -10,6 +10,7 @@ import com.simplisphere.didimdolstandardize.postgresql.entities.Patient;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -52,8 +53,10 @@ public class ChartMigrator {
                     String text = isRtf ? rtfParser(c.getContent1()) : c.getContent1();
                     String text2 = c.getContent2();
                     String doctorName = c.getDoctor() == null ? "" : c.getDoctor().getName().trim();
-                    return Chart.builder().hospital(hospital).chartDate(c.getCreatedAt()).subject(text).cc(text2).objective("")
-                            .originalId(c.getId().toString() + c.getListOrder().toString()).doctor(doctorName).created(c.getCreatedAt()).patient(patient)
+                    return Chart.builder()
+                            .hospital(hospital).chartDate(c.getCreatedAt()).subject(text).cc(text2).objective("")
+                            .originalId(c.getId().toString() + StringUtils.leftPad(c.getListOrder().toString(), 2, "0"))
+                            .doctor(doctorName).created(c.getCreatedAt()).patient(patient)
                             .originalPetId(c.getPet().getId().toString()).build();
                 }).toList();
 

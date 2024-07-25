@@ -43,7 +43,7 @@ public class DiagnosisMigrator {
         Set<String> ruleToNames = rules.values().stream().map(StandardizedRule::getToName).collect(Collectors.toSet());
 
         Map<String, Diagnosis> diagnoses = diagnosisRepository.findByNameIn(ruleToNames).stream()
-                .collect(Collectors.toMap(Diagnosis::getName, diagnosis -> diagnosis));
+                .collect(Collectors.toMap(diagnosis -> diagnosis.getName().trim(), diagnosis -> diagnosis));
         List<HospitalDiagnosis> newHospitalDiagnoses = legacyDiagnosisPage.stream().parallel().map(legacyDiagnosis -> {
                     StandardizedRule rule = rules.get(legacyDiagnosis.getDesc().trim());
                     // rule이 존재한다면 미리 조회한 diagnosis 맵에서 값을 가져와 대입
