@@ -13,12 +13,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-@Table(name = "pl")
-public class MsPlan {
+@Table(name = "lb")
+public class MsLabItem {
     @Id
-    @Column(name = "plid")
+    @Column(name = "lbid")
     private Integer id;
 
-    @Column(name = "plyplid")
-    private Integer type;
+    @Column(name = "lbdesc")
+    private String name;
+
+    @Column(name = "lbunit", columnDefinition = "char")
+    private String unit;
 }

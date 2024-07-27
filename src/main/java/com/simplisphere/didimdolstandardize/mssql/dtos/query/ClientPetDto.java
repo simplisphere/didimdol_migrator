@@ -16,7 +16,7 @@ public class ClientPetDto {
     private String clientAddress2;
     private Long petId;
     private String petName;
-    private String species;
+    private Integer species;
     private String breed;
     private String sex;
     private LocalDate birth;

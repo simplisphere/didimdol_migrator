@@ -1,8 +1,8 @@
 package com.simplisphere.didimdolstandardize.mssql.migrators;
 
+import com.simplisphere.didimdolstandardize.mssql.MsOriginSpecies;
 import com.simplisphere.didimdolstandardize.mssql.dtos.query.ClientPetDto;
 import com.simplisphere.didimdolstandardize.mssql.services.MsPetService;
-import com.simplisphere.didimdolstandardize.postgresql.Species;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Hospital;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Patient;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +23,10 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class PatientMigrator {
-    private static final Map<String, Species> speciesMap = new HashMap<>();
     private static final Map<String, String> sexMap = new HashMap<>();
     private static final Map<String, String> breedMap = new HashMap<>();
 
     static {
-        speciesMap.put("CANINE", Species.CANINE);
-        speciesMap.put("FELINE", Species.FELINE);
         sexMap.put("F", "Female");
         sexMap.put("un", "Spayed female");
         sexMap.put("SF", "Spayed female");
@@ -55,13 +52,6 @@ public class PatientMigrator {
         return sexMap.getOrDefault(sex.trim(), "None");
     }
 
-    private static Species convertSpecies(String species) {
-        if (species == null) {
-            return Species.ETC;
-        }
-        return speciesMap.getOrDefault(species.trim(), Species.ETC);
-    }
-
     public Page<Patient> convertPatient(Hospital hospital, Pageable pageRequest) {
         Page<ClientPetDto> legacyClientPet = msPetService.getClientPetDetails(pageRequest);
         List<Patient> patients = legacyClientPet.stream().parallel().map(clientPetDto -> {
@@ -79,7 +69,7 @@ public class PatientMigrator {
                     .phone("")
                     .sex(convertSex(clientPetDto.getSex()))
                     .originalId(clientPetDto.getPetId().toString())
-                    .species(convertSpecies(clientPetDto.getSpecies()))
+                    .species(MsOriginSpecies.of(clientPetDto.getSpecies()).toSpecies())
                     .hospital(hospital)
                     .created(petFirstDate)
                     .updated(petFirstDate)

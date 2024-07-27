@@ -38,4 +38,6 @@ public class LaboratoryService {
     public List<LaboratoryResult> saveLaboratoryResults(List<LaboratoryResult> laboratoryResults) {
         return laboratoryResultRepository.saveAll(laboratoryResults);
     }
+
+
 }

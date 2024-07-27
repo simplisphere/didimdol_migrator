@@ -5,6 +5,10 @@ import com.simplisphere.didimdolstandardize.postgresql.MarkerType;
 import com.simplisphere.didimdolstandardize.postgresql.RuleType;
 import com.simplisphere.didimdolstandardize.postgresql.Species;
 import com.simplisphere.didimdolstandardize.postgresql.entities.*;
+import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryItem;
+import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryReference;
+import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryResult;
+import com.simplisphere.didimdolstandardize.postgresql.entities.laboratory.LaboratoryType;
 import com.simplisphere.didimdolstandardize.postgresql.entities.prescription.Medicine;
 import com.simplisphere.didimdolstandardize.postgresql.entities.prescription.Prescription;
 import com.simplisphere.didimdolstandardize.postgresql.repositories.AssessmentRepository;
@@ -17,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -49,6 +54,8 @@ public class GogangMigrator implements Migrator {
     private final StandardMarkerService standardMarkerService;
     private final PrescriptionMigrator prescriptionMigrator;
     private final PrescriptionService prescriptionService;
+    private final LaboratoryMigrator laboratoryMigrator;
+    private final LaboratoryService laboratoryService;
 
     private Hospital hospital;
 
@@ -96,8 +103,10 @@ public class GogangMigrator implements Migrator {
             CompletableFuture<Void> laboratoryFuture = self.migrateLaboratory(hospital);
             log.info("Prescription 마이그레이션");
             CompletableFuture<Void> prescriptionFuture = self.migratePrescription(hospital);
+//            CompletableFuture<Void> prescriptionFuture = CompletableFuture.completedFuture(null);
             log.info("Vital 마이그레이션");
             CompletableFuture<Void> vitalFuture = self.migrateVital(hospital);
+//            CompletableFuture<Void> vitalFuture = CompletableFuture.completedFuture(null);
             return CompletableFuture.allOf(laboratoryFuture, prescriptionFuture, vitalFuture);
         });
 
@@ -198,16 +207,17 @@ public class GogangMigrator implements Migrator {
 
     // 표준 약품 데이터 생성
     private void prepareMedicine() {
-        medicineService.findOrCreate(Medicine.builder().description("표준 크레메진").name("크레메진").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 크레메진").name("크레메진 세립").build());
         medicineService.findOrCreate(Medicine.builder().description("표준 노바스크 정").name("노바스크 정").build());
         medicineService.findOrCreate(Medicine.builder().description("표준 노바트 주사").name("노바트 주사").build());
         medicineService.findOrCreate(Medicine.builder().description("표준 세레니아 정").name("세레니아 정").build());
         medicineService.findOrCreate(Medicine.builder().description("표준 레나젤 정").name("레나젤 정").build());
         medicineService.findOrCreate(Medicine.builder().description("표준 레메론 정").name("레메론 정").build());
-        medicineService.findOrCreate(Medicine.builder().description("표준 FUCO K").name("FUCO K").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 FUCO K").name("FUCO K 캡슐").build());
         medicineService.findOrCreate(Medicine.builder().description("표준 베나실 정").name("베나실 정").build());
         medicineService.findOrCreate(Medicine.builder().description("표준 레나메진 정").name("레나메진 정").build());
-        medicineService.findOrCreate(Medicine.builder().description("표준 텔미사탄").name("텔미사탄").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 텔미사탄 정").name("텔미사탄 정").build());
+        medicineService.findOrCreate(Medicine.builder().description("표준 인슐린 경구용").name("인슐린 경구용").build());
         medicineService.findOrCreate(Medicine.builder().description("표준 인슐린 주사").name("인슐린 주사").build());
         medicineService.findOrCreate(Medicine.builder().description("표준 아스피린 정").name("아스피린 정").build());
         medicineService.findOrCreate(Medicine.builder().description("표준 아스피린프로텍트 정").name("아스피린프로텍트 정").build());
@@ -218,17 +228,17 @@ public class GogangMigrator implements Migrator {
 
         List<StandardizedRule> rules = new ArrayList<>();
 
-        rules.add(StandardizedRule.builder().name("고강 약품 맵핑 1").description("고강 약품 맵핑 1").type(RuleType.PRESCRIPTION).fromName("크레메진").toName("크레메진").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("고강 약품 맵핑 1").description("고강 약품 맵핑 1").type(RuleType.PRESCRIPTION).fromName("크레메진").toName("크레메진 세립").hospital(hospital).created(LocalDateTime.now()).build());
         rules.add(StandardizedRule.builder().name("고강 약품 맵핑 2").description("고강 약품 맵핑 2").type(RuleType.PRESCRIPTION).fromName("노바스크정(암로디핀) 10mg 5mg").toName("노바스크 정").hospital(hospital).created(LocalDateTime.now()).build());
         rules.add(StandardizedRule.builder().name("고강 약품 맵핑 3").description("고강 약품 맵핑 3").type(RuleType.PRESCRIPTION).fromName("노바트주(세레니아)").toName("노바트 주사").hospital(hospital).created(LocalDateTime.now()).build());
-        rules.add(StandardizedRule.builder().name("고강 약품 맵핑 4").description("고강 약품 맵핑 4").type(RuleType.PRESCRIPTION).fromName("세레니아(Cerenia) 정 24mg").toName("세레니아 캡슐").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("고강 약품 맵핑 4").description("고강 약품 맵핑 4").type(RuleType.PRESCRIPTION).fromName("세레니아(Cerenia) 정 24mg").toName("세레니아 정").hospital(hospital).created(LocalDateTime.now()).build());
         rules.add(StandardizedRule.builder().name("고강 약품 맵핑 5").description("고강 약품 맵핑 5").type(RuleType.PRESCRIPTION).fromName("레나젤정 800").toName("레나젤 정").hospital(hospital).created(LocalDateTime.now()).build());
         rules.add(StandardizedRule.builder().name("고강 약품 맵핑 6").description("고강 약품 맵핑 6").type(RuleType.PRESCRIPTION).fromName("레메론정 15mg").toName("레메론 정").hospital(hospital).created(LocalDateTime.now()).build());
-        rules.add(StandardizedRule.builder().name("고강 약품 맵핑 7").description("고강 약품 맵핑 7").type(RuleType.PRESCRIPTION).fromName("치료보조제 - FUCO K 후코케이 300mg 30캡슐").toName("FUCO K").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("고강 약품 맵핑 7").description("고강 약품 맵핑 7").type(RuleType.PRESCRIPTION).fromName("치료보조제 - FUCO K 후코케이 300mg 30캡슐").toName("FUCO K 캡슐").hospital(hospital).created(LocalDateTime.now()).build());
         rules.add(StandardizedRule.builder().name("고강 약품 맵핑 8").description("고강 약품 맵핑 8").type(RuleType.PRESCRIPTION).fromName("베나실정 10mg").toName("베나실 정").hospital(hospital).created(LocalDateTime.now()).build());
         rules.add(StandardizedRule.builder().name("고강 약품 맵핑 9").description("고강 약품 맵핑 9").type(RuleType.PRESCRIPTION).fromName("레나메진").toName("레나메진 정").hospital(hospital).created(LocalDateTime.now()).build());
-        rules.add(StandardizedRule.builder().name("고강 약품 맵핑 10").description("고강 약품 맵핑 10").type(RuleType.PRESCRIPTION).fromName("텔미사탄 40mg").toName("텔미사탄").hospital(hospital).created(LocalDateTime.now()).build());
-        rules.add(StandardizedRule.builder().name("고강 약품 맵핑 11").description("고강 약품 맵핑 11").type(RuleType.PRESCRIPTION).fromName("*동종요법-Insulinum 200C").toName("인슐린 주사").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("고강 약품 맵핑 10").description("고강 약품 맵핑 10").type(RuleType.PRESCRIPTION).fromName("텔미사탄 40mg").toName("텔미사탄 정").hospital(hospital).created(LocalDateTime.now()).build());
+        rules.add(StandardizedRule.builder().name("고강 약품 맵핑 11").description("고강 약품 맵핑 11").type(RuleType.PRESCRIPTION).fromName("*동종요법-Insulinum 200C").toName("인슐린 경구용").hospital(hospital).created(LocalDateTime.now()).build());
         rules.add(StandardizedRule.builder().name("고강 약품 맵핑 12").description("고강 약품 맵핑 12").type(RuleType.PRESCRIPTION).fromName("당뇨주사").toName("인슐린 주사").hospital(hospital).created(LocalDateTime.now()).build());
         rules.add(StandardizedRule.builder().name("고강 약품 맵핑 13").description("고강 약품 맵핑 13").type(RuleType.PRESCRIPTION).fromName("아스피린").toName("아스피린 정").hospital(hospital).created(LocalDateTime.now()).build());
         rules.add(StandardizedRule.builder().name("고강 약품 맵핑 13").description("고강 약품 맵핑 13").type(RuleType.PRESCRIPTION).fromName("아스피린성인용").toName("아스피린 정").hospital(hospital).created(LocalDateTime.now()).build());
@@ -428,6 +438,7 @@ public class GogangMigrator implements Migrator {
         standardMarkerService.saveAll(markers);
     }
 
+    @Async
     @Override
     public CompletableFuture<Void> migratePatient(Hospital hospital) {
         Sort sort = Sort.by("ptid").ascending();
@@ -449,6 +460,7 @@ public class GogangMigrator implements Migrator {
         return CompletableFuture.completedFuture(null);
     }
 
+    @Async
     @Override
     public CompletableFuture<Void> migrateChart(Hospital hospital) {
         Sort sort = Sort.by(Sort.Order.asc("id")).and(Sort.by(Sort.Order.asc("listOrder")));
@@ -473,6 +485,7 @@ public class GogangMigrator implements Migrator {
         return CompletableFuture.completedFuture(null);
     }
 
+    @Async
     @Override
     public CompletableFuture<Void> migrateAssessment() {
         log.info("Assessment migration started");
@@ -495,6 +508,7 @@ public class GogangMigrator implements Migrator {
         return CompletableFuture.completedFuture(null);
     }
 
+    @Async
     @Override
     public CompletableFuture<Void> migrateDiagnosis(Hospital hospital) {
         log.info("Diagnosis migration started");
@@ -517,6 +531,7 @@ public class GogangMigrator implements Migrator {
         return CompletableFuture.completedFuture(null);
     }
 
+    @Async
     @Override
     public CompletableFuture<Void> migrateLaboratory(Hospital hospital) {
         log.info("Laboratory migration started");
@@ -526,26 +541,99 @@ public class GogangMigrator implements Migrator {
                 .thenCompose(result -> migrateLaboratoryResult(hospital));
     }
 
+    @Async
     @Override
     public CompletableFuture<Void> migrateLaboratoryType(Hospital hospital) {
+        log.info("Laboratory Type migration started");
+        Sort sort = Sort.by(Sort.Order.asc("id"));
+        PageRequest pageRequest = PageRequest.of(0, 2000, sort);
+        int completed = 0;
+        long totalElements;
+        Page<LaboratoryType> newLaboratoryTypes;
+
+        do {
+            newLaboratoryTypes = laboratoryMigrator.convertLaboratoryType(hospital, pageRequest);
+            laboratoryService.saveLaboratoryTypes(newLaboratoryTypes.getContent());
+            completed += newLaboratoryTypes.getNumberOfElements();
+            totalElements = newLaboratoryTypes.getTotalElements();
+            log.debug("Laboratory Type 총 {} 중 {} 저장 완료", newLaboratoryTypes.getTotalElements(), completed);
+            pageRequest = pageRequest.next();
+        } while (newLaboratoryTypes.hasNext());
+
+        log.info("migrated laboratory type count: {}", totalElements);
         return CompletableFuture.completedFuture(null);
     }
 
+    @Async
     @Override
     public CompletableFuture<Void> migrateLaboratoryItem(Hospital hospital) {
+        log.info("Laboratory Item migration started");
+        Sort sort = Sort.by(Sort.Order.asc("id"));
+        PageRequest pageRequest = PageRequest.of(0, 2000, sort);
+        int completed = 0;
+        long totalElements;
+        Page<LaboratoryItem> newLaboratoryItems;
+
+        do {
+            newLaboratoryItems = laboratoryMigrator.convertLabItem(hospital, pageRequest);
+            laboratoryService.saveLaboratoryItems(newLaboratoryItems.getContent());
+            completed += newLaboratoryItems.getNumberOfElements();
+            totalElements = newLaboratoryItems.getTotalElements();
+            log.debug("Laboratory Item 총 {} 중 {} 저장 완료", newLaboratoryItems.getTotalElements(), completed);
+            pageRequest = pageRequest.next();
+        } while (newLaboratoryItems.hasNext());
+
+        log.info("migrated laboratory item count: {}", totalElements);
         return CompletableFuture.completedFuture(null);
     }
 
+    @Async
     @Override
     public CompletableFuture<Void> migrateLaboratoryReference(Hospital hospital) {
+        log.info("Laboratory Reference migration started");
+        Sort sort = Sort.by(Sort.Order.asc("id"));
+        PageRequest pageRequest = PageRequest.of(0, 2000, sort);
+        int completed = 0;
+        long totalElements;
+        Page<LaboratoryReference> newLaboratoryRefs;
+
+        do {
+            newLaboratoryRefs = laboratoryMigrator.convertLabReference(hospital, pageRequest);
+            laboratoryService.saveLaboratoryReferences(newLaboratoryRefs.getContent());
+            completed += newLaboratoryRefs.getNumberOfElements();
+            totalElements = newLaboratoryRefs.getTotalElements();
+            log.debug("Laboratory Reference 총 {} 중 {} 저장 완료", newLaboratoryRefs.getTotalElements(), completed);
+            pageRequest = pageRequest.next();
+        } while (newLaboratoryRefs.hasNext());
+
+        log.info("migrated laboratory reference count: {}", totalElements);
         return CompletableFuture.completedFuture(null);
     }
 
+    @Async
     @Override
     public CompletableFuture<Void> migrateLaboratoryResult(Hospital hospital) {
+        log.info("Laboratory Result migration started");
+        PageRequest pageRequest = PageRequest.of(0, 10000);
+//        PageRequest pageRequest = PageRequest.of(0, 10);
+        int completed = 0;
+        long totalElements;
+        Page<LaboratoryResult> newLaboratoryResults;
+
+        do {
+            newLaboratoryResults = laboratoryMigrator.convertLabResult(hospital, pageRequest);
+            laboratoryService.saveLaboratoryResults(newLaboratoryResults.getContent());
+            completed += newLaboratoryResults.getNumberOfElements();
+            totalElements = newLaboratoryResults.getTotalElements();
+            log.debug("Laboratory Result 총 {} 중 {} 저장 완료", newLaboratoryResults.getTotalElements(), completed);
+            pageRequest = pageRequest.next();
+        } while (newLaboratoryResults.hasNext());
+
+        log.info("migrated laboratory result count: {}", totalElements);
         return CompletableFuture.completedFuture(null);
     }
 
+    @Async
     @Override
     public CompletableFuture<Void> migratePrescription(Hospital hospital) {
         log.info("Prescription migration started");
@@ -568,6 +656,7 @@ public class GogangMigrator implements Migrator {
         return CompletableFuture.completedFuture(null);
     }
 
+    @Async
     @Override
     public CompletableFuture<Void> migrateVital(Hospital hospital) {
         log.info("Vital migration started");

@@ -8,12 +8,47 @@ import org.hibernate.annotations.Comment;
 import java.time.LocalDateTime;
 
 @Getter
-@ToString(exclude = "type")
+@ToString(exclude = {"hospital", "type"})
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 @Comment("검사 항목")
+@SqlResultSetMapping(
+        name = "LaboratoryItemWithTypeMapping",
+        entities = {
+                @EntityResult(
+                        entityClass = LaboratoryItem.class,
+                        fields = {
+                                @FieldResult(name = "id", column = "li_id"),
+                                @FieldResult(name = "name", column = "li_name"),
+                                @FieldResult(name = "code", column = "li_code"),
+                                @FieldResult(name = "abbreviation", column = "li_abbreviation"),
+                                @FieldResult(name = "description", column = "li_description"),
+                                @FieldResult(name = "unit", column = "li_unit"),
+                                @FieldResult(name = "originalId", column = "li_original_id"),
+                                @FieldResult(name = "orderIdx", column = "li_order_idx"),
+                                @FieldResult(name = "hospital", column = "li_hospital_id"),
+                                @FieldResult(name = "created", column = "li_created"),
+                                @FieldResult(name = "updated", column = "li_updated"),
+                                @FieldResult(name = "type", column = "li_laboratory_type_id")
+                        }
+                ),
+                @EntityResult(
+                        entityClass = LaboratoryType.class,
+                        fields = {
+                                @FieldResult(name = "id", column = "lt_id"),
+                                @FieldResult(name = "name", column = "lt_name"),
+                                @FieldResult(name = "abbreviation", column = "lt_abbreviation"),
+                                @FieldResult(name = "description", column = "lt_description"),
+                                @FieldResult(name = "hospital", column = "lt_hospital_id"),
+                                @FieldResult(name = "originalId", column = "lt_original_id"),
+                                @FieldResult(name = "created", column = "lt_created"),
+                                @FieldResult(name = "updated", column = "lt_updated")
+                        }
+                )
+        }
+)
 public class LaboratoryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lab_item_gen")

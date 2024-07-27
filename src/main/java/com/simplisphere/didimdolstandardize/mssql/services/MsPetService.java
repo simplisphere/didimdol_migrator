@@ -26,7 +26,7 @@ public class MsPetService {
                 (String) result[3],               // clientAddress2
                 ((Number) result[4]).longValue(), // petId
                 (String) result[5],               // petName
-                (String) result[6],               // species
+                (Integer) result[6],               // species
                 (String) result[7],               // breed
                 (String) result[8],               // sex
                 toLocalDate((java.sql.Timestamp) result[9]), // birth

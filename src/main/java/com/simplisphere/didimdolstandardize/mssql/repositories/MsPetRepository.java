@@ -26,7 +26,7 @@ public interface MsPetRepository extends JpaRepository<MsPet, Integer> {
 
     @Query(
             value = "SELECT c.clid AS clientId, c.cllname AS clientName, c.claddr AS clientAddress1, c.claddr2 AS clientAddress2, " +
-                    "p.ptid AS petId, p.ptname AS petName, s.spcode AS species, b.brcode AS breed, sx.sxcode AS sex, " +
+                    "p.ptid AS petId, p.ptname AS petName, p.ptspid AS species, b.brcode AS breed, sx.sxcode AS sex, " +
                     "p.ptdob AS birth, p.ptclr AS color, p.ptfdat AS petFirstDate, p.ptldat AS petLastDate " +
                     "FROM pt p " +
                     "JOIN cl c ON p.ptclid = c.clid " +

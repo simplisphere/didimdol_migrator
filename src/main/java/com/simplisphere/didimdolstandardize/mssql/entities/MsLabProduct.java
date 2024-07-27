@@ -14,11 +14,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "pl")
-public class MsPlan {
+public class MsLabProduct {
     @Id
     @Column(name = "plid")
     private Integer id;
 
-    @Column(name = "plyplid")
-    private Integer type;
+    @Column(name = "pldesc")
+    private String name;
+
+    @Column(name = "pllab", columnDefinition = "tinyint")
+    private Boolean isLaboratory;
 }

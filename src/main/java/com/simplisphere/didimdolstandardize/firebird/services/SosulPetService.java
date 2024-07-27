@@ -5,7 +5,6 @@ import com.simplisphere.didimdolstandardize.firebird.entities.SosulPet;
 import com.simplisphere.didimdolstandardize.firebird.repositories.SosulPetRepository;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Hospital;
 import com.simplisphere.didimdolstandardize.postgresql.entities.Patient;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.antlr.v4.runtime.misc.Pair;
@@ -22,7 +21,6 @@ import java.util.List;
 public class SosulPetService {
     private final SosulPetRepository sosulPetRepository;
 
-    @Transactional
     public Page<Patient> standardizePatient(Hospital hospital, PageRequest pageRequest) {
         Page<Pair<SosulPet, SosulClient>> petsAndClients = sosulPetRepository.findAllPetsAndClients(pageRequest);
         List<Patient> patients = petsAndClients.stream()
