@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -27,4 +28,17 @@ public class Diagnosis {
 
     @OneToMany(mappedBy = "diagnosis", cascade = CascadeType.ALL)
     private List<HospitalDiagnosis> hospitalDiagnoses;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Diagnosis diagnosis = (Diagnosis) o;
+        return Objects.equals(name, diagnosis.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
+    }
 }

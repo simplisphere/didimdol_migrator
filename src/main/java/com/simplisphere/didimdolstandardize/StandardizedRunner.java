@@ -12,13 +12,13 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class StandardizedRunner implements ApplicationRunner {
 
-    private final Migrator migrator;
     private final ApplicationContext applicationContext;
 
     @Override
@@ -30,9 +30,12 @@ public class StandardizedRunner implements ApplicationRunner {
 
         log.info("start migration");
 
-        migrator.beforeMigrate();
-        migrator.migrate();
-        migrator.afterMigrate();
+        Map<String, Migrator> migrators = applicationContext.getBeansOfType(Migrator.class);
+        migrators.values().forEach(migrator -> {
+            migrator.beforeMigrate();
+            migrator.migrate();
+            migrator.afterMigrate();
+        });
 
         Instant end = Instant.now();
         log.info("Start time: {}", LocalDateTime.ofInstant(start, ZoneId.systemDefault()));

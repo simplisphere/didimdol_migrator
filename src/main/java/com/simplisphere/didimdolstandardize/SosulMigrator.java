@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-//@Component
+@Component
 @RequiredArgsConstructor
 public class SosulMigrator implements Migrator {
     private final ApplicationContext applicationContext;
@@ -80,7 +81,7 @@ public class SosulMigrator implements Migrator {
 
     @Override
     public void migrate() {
-        Migrator self = applicationContext.getBean(Migrator.class);
+        Migrator self = (Migrator) applicationContext.getBean("sosulMigrator");
 
         log.info("환자 데이터 표준화");
         CompletableFuture<Void> patientFuture = self.migratePatient(hospital);

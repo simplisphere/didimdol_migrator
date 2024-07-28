@@ -5,6 +5,8 @@ import com.simplisphere.didimdolstandardize.postgresql.Species;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @Getter
 @ToString(exclude = {"diagnosis"})
 @Builder
@@ -32,4 +34,17 @@ public class StandardizeDiagnosisMarker {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diagnosis_id")
     private Diagnosis diagnosis;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StandardizeDiagnosisMarker that = (StandardizeDiagnosisMarker) o;
+        return Objects.equals(name, that.name) && Objects.equals(code, that.code) && species == that.species && type == that.type && Objects.equals(diagnosis, that.diagnosis);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, code, species, type, diagnosis);
+    }
 }
