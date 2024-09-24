@@ -181,3 +181,5 @@ README.html
 .DS_Store
 out/
 .micronaut/
+
+/src/main/**/config/
